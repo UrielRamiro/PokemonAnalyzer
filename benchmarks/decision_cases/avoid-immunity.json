@@ -1,0 +1,65 @@
+{
+  "case_id": "avoid-immunity",
+  "description": "Garchomp should not click Earthquake into Levitate Rotom-Wash when a switch exists.",
+  "state": {
+    "generation": 9,
+    "format_id": "gen9ou",
+    "turn": 1,
+    "player": {
+      "active": {
+        "species": "Garchomp",
+        "current_hp": 300
+      },
+      "team": [
+        {
+          "species": "Garchomp",
+          "evs": {
+            "atk": 252
+          },
+          "moves": [
+            "Earthquake"
+          ]
+        },
+        {
+          "species": "Kingambit",
+          "item": "Black Glasses",
+          "ability": "Supreme Overlord",
+          "evs": {
+            "hp": 252,
+            "atk": 252
+          },
+          "moves": [
+            "Kowtow Cleave"
+          ]
+        }
+      ]
+    },
+    "opponent": {
+      "active": {
+        "species": "Rotom-Wash",
+        "current_hp": 300
+      },
+      "team": [
+        {
+          "species": "Rotom-Wash",
+          "ability": "Levitate",
+          "moves": [
+            "Hydro Pump"
+          ]
+        }
+      ]
+    }
+  },
+  "acceptable_actions": [
+    {
+      "type": "switch",
+      "switch_target_id": "kingambit"
+    }
+  ],
+  "forbidden_actions": [
+    {
+      "type": "move",
+      "move_id": "earthquake"
+    }
+  ]
+}

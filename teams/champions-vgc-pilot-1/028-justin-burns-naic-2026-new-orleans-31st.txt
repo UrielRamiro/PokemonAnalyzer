@@ -1,0 +1,53 @@
+Sneasler @ Focus Sash
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Close Combat
+- Dire Claw
+- Fake Out
+- Protect
+
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Protect
+- Kowtow Cleave
+- Sucker Punch
+- Swords Dance
+
+Blastoise Mega @ Blastoisinite
+Ability: Mega Launcher
+EVs: 2 HP / 32 SpA / 32 Spe
+Modest Nature
+- Water Spout
+- Dark Pulse
+- Shell Smash
+- Protect
+
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Flare Blitz
+- Helping Hand
+- Fake Out
+- Parting Shot
+
+Sinistcha @ Kasib Berry
+Ability: Hospitality
+EVs: 32 HP / 14 Def / 20 SpD
+Bold Nature
+- Matcha Gotcha
+- Life Dew
+- Rage Powder
+- Protect
+
+Floette Mega @ Floettite
+Ability: Flower Veil
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Draining Kiss
+- Dazzling Gleam
+- Calm Mind
+- Protect

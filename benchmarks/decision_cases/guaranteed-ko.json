@@ -1,0 +1,54 @@
+{
+  "case_id": "guaranteed-ko",
+  "description": "Great Tusk should take the guaranteed KO on Kingambit.",
+  "state": {
+    "generation": 9,
+    "format_id": "gen9ou",
+    "turn": 1,
+    "player": {
+      "active": {
+        "species": "Great Tusk",
+        "current_hp": 300
+      },
+      "team": [
+        {
+          "species": "Great Tusk",
+          "item": "Choice Band",
+          "ability": "Protosynthesis",
+          "nature": "Adamant",
+          "evs": {
+            "atk": 252
+          },
+          "moves": [
+            "Headlong Rush"
+          ]
+        }
+      ]
+    },
+    "opponent": {
+      "active": {
+        "species": "Kingambit",
+        "current_hp": 220
+      },
+      "team": [
+        {
+          "species": "Kingambit",
+          "ability": "Supreme Overlord",
+          "evs": {
+            "hp": 252
+          },
+          "moves": [
+            "Sucker Punch"
+          ]
+        }
+      ]
+    }
+  },
+  "acceptable_actions": [
+    {
+      "type": "move",
+      "move_id": "headlongrush"
+    }
+  ],
+  "forbidden_actions": []
+}

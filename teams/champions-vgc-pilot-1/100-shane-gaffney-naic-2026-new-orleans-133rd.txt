@@ -1,0 +1,53 @@
+Sylveon @ Fairy Feather
+Ability: Pixilate
+EVs: 9 HP / 22 Def / 30 SpA / 5 Spe
+Modest Nature
+- Detect
+- Hyper Beam
+- Hyper Voice
+- Quick Attack
+
+Incineroar @ Charcoal
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Fake Out
+- Parting Shot
+- Flare Blitz
+- Throat Chop
+
+Charizard Mega Y @ Charizardite Y
+Ability: Drought
+EVs: 20 HP / 32 Def / 1 SpA / 13 Spe
+Timid Nature
+- Protect
+- Heat Wave
+- Solar Beam
+- Weather Ball
+
+Farigiraf @ Sitrus Berry
+Ability: Armor Tail
+EVs: 31 HP / 14 Def / 13 SpA / 8 SpD
+Quiet Nature
+- Protect
+- Hyper Voice
+- Psychic
+- Trick Room
+
+Aerodactyl @ Focus Sash
+Ability: Unnerve
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Rock Slide
+- Tailwind
+- Wide Guard
+- Sunny Day
+
+Garchomp @ Choice Scarf
+Ability: Rough Skin
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Dragon Claw
+- Rock Tomb
+- Earthquake
+- Stomping Tantrum

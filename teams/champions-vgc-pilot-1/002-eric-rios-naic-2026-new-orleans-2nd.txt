@@ -1,0 +1,53 @@
+Charizard Mega Y @ Charizardite Y
+Ability: Drought
+EVs: 20 HP / 32 Def / 1 SpA / 13 Spe
+Timid Nature
+- Protect
+- Heat Wave
+- Weather Ball
+- Solar Beam
+
+Garchomp @ Soft Sand
+Ability: Rough Skin
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Dragon Claw
+- Stomping Tantrum
+- Earthquake
+
+Sylveon @ Fairy Feather
+Ability: Pixilate
+EVs: 9 HP / 22 Def / 30 SpA / 5 Spe
+Modest Nature
+- Detect
+- Quick Attack
+- Hyper Voice
+- Hyper Beam
+
+Farigiraf @ Sitrus Berry
+Ability: Armor Tail
+EVs: 31 HP / 14 Def / 13 SpA / 8 SpD
+Quiet Nature
+- Twin Beam
+- Thunderbolt
+- Roar
+- Trick Room
+
+Kingambit @ Focus Sash
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Kowtow Cleave
+- Iron Head
+- Sucker Punch
+- Low Kick
+
+Aerodactyl Mega @ Aerodactylite
+Ability: Tough Claws
+EVs: 22 HP / 12 Atk / 32 Spe
+Jolly Nature
+- Rock Slide
+- Dual Wingbeat
+- Ice Fang
+- Tailwind

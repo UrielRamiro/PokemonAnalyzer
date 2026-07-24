@@ -1,0 +1,53 @@
+Sinistcha @ Kasib Berry
+Ability: Hospitality
+EVs: 32 HP / 14 Def / 20 SpD
+Bold Nature
+- Matcha Gotcha
+- Protect
+- Life Dew
+- Rage Powder
+
+Sneasler @ Focus Sash
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Dire Claw
+- Close Combat
+- Coaching
+- Fake Out
+
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Flare Blitz
+- Darkest Lariat
+- Parting Shot
+- Fake Out
+
+Floette Mega @ Floettite
+Ability: Flower Veil
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Dazzling Gleam
+- Protect
+- Calm Mind
+- Draining Kiss
+
+Empoleon @ Shuca Berry
+Ability: Competitive
+EVs: 21 HP / 12 Def / 16 SpA / 12 SpD / 5 Spe
+Modest Nature
+- Protect
+- Hydro Pump
+- Flash Cannon
+- Ice Beam
+
+Charizard Mega X @ Charizardite X
+Ability: Tough Claws
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Protect
+- Flare Blitz
+- Dragon Dance
+- Dragon Claw

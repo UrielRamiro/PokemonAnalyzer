@@ -1,0 +1,53 @@
+Pelipper @ Sitrus Berry
+Ability: Drizzle
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Tailwind
+- Weather Ball
+- Hurricane
+- Wide Guard
+
+Kingambit @ Focus Sash
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Iron Head
+- Kowtow Cleave
+- Sucker Punch
+- Protect
+
+Basculegion-M @ Choice Scarf
+Ability: Adaptability
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Flip Turn
+- Wave Crash
+- Last Respects
+- Aqua Jet
+
+Sneasler @ White Herb
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Dire Claw
+- Close Combat
+- Protect
+- Fake Out
+
+Dragonite Mega @ Dragoninite
+Ability: Multiscale
+EVs: 2 HP / 32 SpA / 32 Spe
+Modest Nature
+- Dragon Pulse
+- Hurricane
+- Protect
+- Extreme Speed
+
+Archaludon @ Leftovers
+Ability: Stamina
+EVs: 32 HP / 5 SpA / 15 SpD / 14 Spe
+Modest Nature
+- Flash Cannon
+- Protect
+- Electro Shot
+- Dragon Pulse

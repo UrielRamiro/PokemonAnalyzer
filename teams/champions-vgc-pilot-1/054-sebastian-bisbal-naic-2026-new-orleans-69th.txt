@@ -1,0 +1,53 @@
+Froslass Mega @ Froslassite
+Ability: Snow Warning
+EVs: 24 HP / 8 SpA / 4 SpD / 30 Spe
+Modest Nature
+- Blizzard
+- Aurora Veil
+- Shadow Ball
+- Protect
+
+Whimsicott @ Focus Sash
+Ability: Prankster
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Moonblast
+- Tailwind
+- Encore
+- Protect
+
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Kowtow Cleave
+- Sucker Punch
+- Iron Head
+- Protect
+
+Rotom-Wash @ Sitrus Berry
+Ability: Levitate
+EVs: 19 HP / 13 Def / 15 SpA / 19 Spe
+Modest Nature
+- Thunderbolt
+- Hydro Pump
+- Will-O-Wisp
+- Protect
+
+Sneasler @ White Herb
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Gunk Shot
+- Close Combat
+- Fake Out
+- Protect
+
+Garchomp @ Choice Scarf
+Ability: Rough Skin
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Rock Slide
+- Dragon Claw
+- Stomping Tantrum
+- Earthquake

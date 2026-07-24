@@ -1,0 +1,53 @@
+Tyranitar Mega @ Tyranitarite
+Ability: Sand Stream
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Rock Slide
+- Knock Off
+- Low Kick
+- Protect
+
+Scovillain Mega @ Scovillainite
+Ability: Spicy Spray
+EVs: 32 HP / 19 Def / 15 SpD
+Calm Nature
+- Rage Powder
+- Overheat
+- Giga Drain
+- Protect
+
+Mimikyu @ Fairy Feather
+Ability: Disguise
+EVs: 32 HP / 32 Atk / 2 Def
+Brave Nature
+- Play Rough
+- Shadow Claw
+- Shadow Sneak
+- Trick Room
+
+Corviknight @ Sharp Beak
+Ability: Mirror Armor
+EVs: 32 HP / 13 Atk / 7 Def / 5 SpD / 9 Spe
+Adamant Nature
+- Brave Bird
+- Tailwind
+- Bulk Up
+- Roost
+
+Excadrill @ Focus Sash
+Ability: Sand Rush
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Earthquake
+- Iron Head
+- Swords Dance
+- Protect
+
+Rotom-Wash @ Choice Scarf
+Ability: Levitate
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Volt Switch
+- Thunderbolt
+- Hydro Pump
+- Electroweb

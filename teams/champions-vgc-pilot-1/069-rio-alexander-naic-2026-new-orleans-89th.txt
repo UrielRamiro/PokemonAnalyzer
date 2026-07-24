@@ -1,0 +1,53 @@
+Vivillon @ Focus Sash
+Ability: Compound Eyes
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Protect
+- Sleep Powder
+- Hurricane
+- Rage Powder
+
+Sylveon @ Fairy Feather
+Ability: Pixilate
+EVs: 9 HP / 22 Def / 30 SpA / 5 Spe
+Modest Nature
+- Detect
+- Hyper Voice
+- Yawn
+- Hyper Beam
+
+Gengar Mega @ Gengarite
+Ability: Shadow Tag
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Protect
+- Shadow Ball
+- Disable
+- Perish Song
+
+Archaludon @ Leftovers
+Ability: Stamina
+EVs: 32 HP / 5 SpA / 15 SpD / 14 Spe
+Modest Nature
+- Protect
+- Dragon Pulse
+- Electro Shot
+- Flash Cannon
+
+Politoed @ Sitrus Berry
+Ability: Drizzle
+EVs: 32 HP / 25 Def / 6 SpD / 3 Spe
+Bold Nature
+- Protect
+- Weather Ball
+- Encore
+- Perish Song
+
+Incineroar @ Passho Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Protect
+- Parting Shot
+- Fake Out
+- Darkest Lariat

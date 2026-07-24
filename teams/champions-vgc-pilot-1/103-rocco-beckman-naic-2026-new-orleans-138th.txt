@@ -1,0 +1,53 @@
+Blastoise Mega @ Blastoisinite
+Ability: Mega Launcher
+EVs: 2 HP / 32 SpA / 32 Spe
+Modest Nature
+- Water Spout
+- Dark Pulse
+- Fake Out
+- Shell Smash
+
+Camerupt Mega @ Cameruptite
+Ability: Sheer Force
+EVs: 32 HP / 2 Def / 32 SpA
+Quiet Nature
+- Ancient Power
+- Earth Power
+- Heat Wave
+- Protect
+
+Vivillon @ Choice Scarf
+Ability: Compound Eyes
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Rage Powder
+- Rain Dance
+- Sleep Powder
+- Hurricane
+
+Farigiraf @ Sitrus Berry
+Ability: Armor Tail
+EVs: 31 HP / 14 Def / 13 SpA / 8 SpD
+Quiet Nature
+- Psychic
+- Protect
+- Helping Hand
+- Trick Room
+
+Incineroar @ Charcoal
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Darkest Lariat
+- Flare Blitz
+- Fake Out
+- Parting Shot
+
+Basculegion-M @ Focus Sash
+Ability: Adaptability
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Liquidation
+- Last Respects
+- Aqua Jet
+- Protect

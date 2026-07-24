@@ -1,0 +1,53 @@
+Basculegion-M @ Mystic Water
+Ability: Adaptability
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Aqua Jet
+- Wave Crash
+- Last Respects
+
+Venusaur Mega @ Venusaurite
+Ability: Thick Fat
+EVs: 32 HP / 7 Def / 18 SpA / 9 Spe
+Modest Nature
+- Protect
+- Giga Drain
+- Sludge Bomb
+- Leech Seed
+
+Aerodactyl Mega @ Aerodactylite
+Ability: Tough Claws
+EVs: 22 HP / 12 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Rock Slide
+- Ice Fang
+- Dual Wingbeat
+
+Archaludon @ Shuca Berry
+Ability: Stamina
+EVs: 32 HP / 5 SpA / 15 SpD / 14 Spe
+Modest Nature
+- Protect
+- Electro Shot
+- Aura Sphere
+- Flash Cannon
+
+Sylveon @ Leftovers
+Ability: Pixilate
+EVs: 9 HP / 22 Def / 30 SpA / 5 Spe
+Modest Nature
+- Detect
+- Moonblast
+- Calm Mind
+- Hyper Voice
+
+Pelipper @ Focus Sash
+Ability: Drizzle
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Protect
+- Tailwind
+- Hurricane
+- Weather Ball

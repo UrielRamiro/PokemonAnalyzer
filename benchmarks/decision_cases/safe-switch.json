@@ -1,0 +1,68 @@
+{
+  "case_id": "safe-switch",
+  "description": "A threatened Garchomp should switch to Corviknight against Weavile.",
+  "state": {
+    "generation": 9,
+    "format_id": "gen9ou",
+    "turn": 1,
+    "player": {
+      "active": {
+        "species": "Garchomp",
+        "current_hp": 80
+      },
+      "team": [
+        {
+          "species": "Garchomp",
+          "moves": [
+            "Swords Dance"
+          ]
+        },
+        {
+          "species": "Corviknight",
+          "item": "Leftovers",
+          "ability": "Pressure",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          },
+          "moves": [
+            "Body Press",
+            "Roost"
+          ]
+        }
+      ]
+    },
+    "opponent": {
+      "active": {
+        "species": "Weavile",
+        "current_hp": 300
+      },
+      "team": [
+        {
+          "species": "Weavile",
+          "ability": "Pressure",
+          "nature": "Jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          },
+          "moves": [
+            "Ice Spinner"
+          ]
+        }
+      ]
+    }
+  },
+  "acceptable_actions": [
+    {
+      "type": "switch",
+      "switch_target_id": "corviknight"
+    }
+  ],
+  "forbidden_actions": [
+    {
+      "type": "move",
+      "move_id": "swordsdance"
+    }
+  ]
+}

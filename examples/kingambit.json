@@ -1,0 +1,15 @@
+{
+  "species": "Kingambit",
+  "level": 100,
+  "ability": "Supreme Overlord",
+  "nature": "Adamant",
+  "evs": {
+    "hp": 252
+  },
+  "moves": [
+    "Kowtow Cleave",
+    "Sucker Punch",
+    "Iron Head",
+    "Swords Dance"
+  ]
+}

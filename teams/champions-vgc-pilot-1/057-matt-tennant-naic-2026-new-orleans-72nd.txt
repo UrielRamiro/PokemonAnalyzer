@@ -1,0 +1,53 @@
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Kowtow Cleave
+- Sucker Punch
+- Protect
+- Swords Dance
+
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Throat Chop
+- Flare Blitz
+- Parting Shot
+- Fake Out
+
+Palafin @ Leftovers
+Ability: Zero to Hero
+EVs: 32 HP / 30 Atk / 4 Spe
+Adamant Nature
+- Jet Punch
+- Wave Crash
+- Protect
+- Bulk Up
+
+Sneasler @ Focus Sash
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Dire Claw
+- Close Combat
+- Fake Out
+- Protect
+
+Dragapult @ Lum Berry
+Ability: Clear Body
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Dragon Darts
+- Psychic Fangs
+- Light Screen
+- Will-O-Wisp
+
+Floette Mega @ Floettite
+Ability: Flower Veil
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Draining Kiss
+- Dazzling Gleam
+- Calm Mind
+- Protect

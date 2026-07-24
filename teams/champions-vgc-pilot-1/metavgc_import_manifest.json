@@ -1,0 +1,716 @@
+{
+  "imported_at": "2026-07-22T04:52:23.766265+00:00",
+  "source": "metavgc",
+  "source_url": "https://metavgc.com/pt/times/naic-2026",
+  "team_count": 118,
+  "teams": [
+    {
+      "filename": "001-francesco-pio-pero-naic-2026-new-orleans-1st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-aerodactyl-mega-by-francesco-pio-pero-at-naic-2026-new-orleans-place-1st",
+      "title": "Francesco Pio Pero - NAIC 2026, New Orleans - #1st"
+    },
+    {
+      "filename": "002-eric-rios-naic-2026-new-orleans-2nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-aerodactyl-mega-by-eric-rios-at-naic-2026-new-orleans-place-2nd",
+      "title": "Eric Rios - NAIC 2026, New Orleans - #2nd"
+    },
+    {
+      "filename": "003-wolfe-glick-naic-2026-new-orleans-3rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-mamoswine-by-wolfe-glick-at-naic-2026-new-orleans-place-3rd",
+      "title": "Wolfe Glick - NAIC 2026, New Orleans - #3rd"
+    },
+    {
+      "filename": "004-shoma-honami-naic-2026-new-orleans-4th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-shoma-honami-at-naic-2026-new-orleans-place-4th",
+      "title": "Shoma Honami - NAIC 2026, New Orleans - #4th"
+    },
+    {
+      "filename": "005-ko-tsukide-naic-2026-new-orleans-5th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-ko-tsukide-at-naic-2026-new-orleans-place-5th",
+      "title": "Ko Tsukide - NAIC 2026, New Orleans - #5th"
+    },
+    {
+      "filename": "006-dawei-si-naic-2026-new-orleans-6th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-incineroar-by-dawei-si-at-naic-2026-new-orleans-place-6th",
+      "title": "Dawei Si - NAIC 2026, New Orleans - #6th"
+    },
+    {
+      "filename": "007-adrien-hurley-naic-2026-new-orleans-7th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-aerodactyl-mega-by-adrien-hurley-at-naic-2026-new-orleans-place-7th",
+      "title": "Adrien Hurley - NAIC 2026, New Orleans - #7th"
+    },
+    {
+      "filename": "008-marcus-dion-naic-2026-new-orleans-8th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-froslass-mega-by-marcus-dion-at-naic-2026-new-orleans-place-8th",
+      "title": "Marcus Dion - NAIC 2026, New Orleans - #8th"
+    },
+    {
+      "filename": "009-don-czech-naic-2026-new-orleans-9th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-froslass-mega-by-don-czech-at-naic-2026-new-orleans-place-9th",
+      "title": "Don Czech - NAIC 2026, New Orleans - #9th"
+    },
+    {
+      "filename": "010-chris-large-naic-2026-new-orleans-10th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gardevoir-mega-blastoise-mega-by-chris-large-at-naic-2026-new-orleans-place-10th",
+      "title": "Chris Large - NAIC 2026, New Orleans - #10th"
+    },
+    {
+      "filename": "011-federico-camporesi-naic-2026-new-orleans-11th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-federico-camporesi-at-naic-2026-new-orleans-place-11th",
+      "title": "Federico Camporesi - NAIC 2026, New Orleans - #11th"
+    },
+    {
+      "filename": "012-marco-hemantha-kaludura-silva-naic-2026-new-orleans-12th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-aerodactyl-by-marco-hemantha-kaludura-silva-at-naic-2026-new-orleans-place-12th",
+      "title": "Marco Hemantha Kaludura Silva - NAIC 2026, New Orleans - #12th"
+    },
+    {
+      "filename": "013-dylan-matthews-naic-2026-new-orleans-13th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-dragonite-mega-by-dylan-matthews-at-naic-2026-new-orleans-place-13th",
+      "title": "Dylan Matthews - NAIC 2026, New Orleans - #13th"
+    },
+    {
+      "filename": "014-alex-g-mez-berna-naic-2026-new-orleans-14th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/aerodactyl-mega-charizard-mega-y-by-alex-gomez-berna-at-naic-2026-new-orleans-place-14th",
+      "title": "Alex G\u00f3mez Berna - NAIC 2026, New Orleans - #14th"
+    },
+    {
+      "filename": "015-brendan-zheng-naic-2026-new-orleans-15th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-floette-mega-by-brendan-zheng-at-naic-2026-new-orleans-place-15th",
+      "title": "Brendan Zheng - NAIC 2026, New Orleans - #15th"
+    },
+    {
+      "filename": "016-louis-milich-naic-2026-new-orleans-16th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-scovillain-mega-by-louis-milich-at-naic-2026-new-orleans-place-16th",
+      "title": "Louis Milich - NAIC 2026, New Orleans - #16th"
+    },
+    {
+      "filename": "017-kareem-muakkit-naic-2026-new-orleans-17th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-floette-mega-by-kareem-muakkit-at-naic-2026-new-orleans-place-17th",
+      "title": "Kareem Muakkit - NAIC 2026, New Orleans - #17th"
+    },
+    {
+      "filename": "018-collin-heier-naic-2026-new-orleans-18th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-aerodactyl-mega-by-collin-heier-at-naic-2026-new-orleans-place-18th",
+      "title": "Collin Heier - NAIC 2026, New Orleans - #18th"
+    },
+    {
+      "filename": "019-justin-tang-naic-2026-new-orleans-19th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-delphox-mega-by-justin-tang-at-naic-2026-new-orleans-place-19th",
+      "title": "Justin Tang - NAIC 2026, New Orleans - #19th"
+    },
+    {
+      "filename": "020-james-parmley-naic-2026-new-orleans-20th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-venusaur-by-james-parmley-at-naic-2026-new-orleans-place-20th",
+      "title": "James Parmley - NAIC 2026, New Orleans - #20th"
+    },
+    {
+      "filename": "021-thomas-irwin-naic-2026-new-orleans-21st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-sneasler-by-thomas-irwin-at-naic-2026-new-orleans-place-21st",
+      "title": "Thomas Irwin - NAIC 2026, New Orleans - #21st"
+    },
+    {
+      "filename": "022-matthew-faucett-naic-2026-new-orleans-22nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-aerodactyl-mega-by-matthew-faucett-at-naic-2026-new-orleans-place-22nd",
+      "title": "Matthew Faucett - NAIC 2026, New Orleans - #22nd"
+    },
+    {
+      "filename": "023-aaron-grubbs-naic-2026-new-orleans-23rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-floette-mega-by-aaron-grubbs-at-naic-2026-new-orleans-place-23rd",
+      "title": "Aaron Grubbs - NAIC 2026, New Orleans - #23rd"
+    },
+    {
+      "filename": "024-garrett-wilson-naic-2026-new-orleans-24th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-glimmora-mega-by-garrett-wilson-at-naic-2026-new-orleans-place-24th",
+      "title": "Garrett Wilson - NAIC 2026, New Orleans - #24th"
+    },
+    {
+      "filename": "025-theotime-massaut-naic-2026-new-orleans-26th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/delphox-mega-floette-mega-by-theotime-massaut-at-naic-2026-new-orleans-place-26th",
+      "title": "Theotime Massaut - NAIC 2026, New Orleans - #26th"
+    },
+    {
+      "filename": "026-stefano-greppi-naic-2026-new-orleans-28th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/aerodactyl-mega-charizard-mega-y-by-stefano-greppi-at-naic-2026-new-orleans-place-28th",
+      "title": "Stefano Greppi - NAIC 2026, New Orleans - #28th"
+    },
+    {
+      "filename": "027-christopher-han-naic-2026-new-orleans-29th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-floette-mega-by-christopher-han-at-naic-2026-new-orleans-place-29th",
+      "title": "Christopher Han - NAIC 2026, New Orleans - #29th"
+    },
+    {
+      "filename": "028-justin-burns-naic-2026-new-orleans-31st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/blastoise-mega-floette-mega-by-justin-burns-at-naic-2026-new-orleans-place-31st",
+      "title": "Justin Burns - NAIC 2026, New Orleans - #31st"
+    },
+    {
+      "filename": "029-aaron-brok-naic-2026-new-orleans-33rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/dragonite-mega-froslass-mega-by-aaron-brok-at-naic-2026-new-orleans-place-33rd",
+      "title": "Aaron Brok - NAIC 2026, New Orleans - #33rd"
+    },
+    {
+      "filename": "030-mao-harada-naic-2026-new-orleans-36th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-aerodactyl-mega-by-mao-harada-at-naic-2026-new-orleans-place-36th",
+      "title": "Mao Harada - NAIC 2026, New Orleans - #36th"
+    },
+    {
+      "filename": "031-tommy-o-039-hara-naic-2026-new-orleans-39th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-tommy-o-039-hara-at-naic-2026-new-orleans-place-39th",
+      "title": "Tommy O&#039;Hara - NAIC 2026, New Orleans - #39th"
+    },
+    {
+      "filename": "032-leonard-craft-iii-naic-2026-new-orleans-41st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-scovillain-mega-by-leonard-craft-iii-at-naic-2026-new-orleans-place-41st",
+      "title": "Leonard Craft III - NAIC 2026, New Orleans - #41st"
+    },
+    {
+      "filename": "033-william-fuh-naic-2026-new-orleans-42nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-froslass-mega-by-william-fuh-at-naic-2026-new-orleans-place-42nd",
+      "title": "William Fuh - NAIC 2026, New Orleans - #42nd"
+    },
+    {
+      "filename": "034-daniel-marcelo-reyes-naic-2026-new-orleans-44th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-garchomp-by-daniel-marcelo-reyes-at-naic-2026-new-orleans-place-44th",
+      "title": "Daniel Marcelo Reyes - NAIC 2026, New Orleans - #44th"
+    },
+    {
+      "filename": "035-william-marks-naic-2026-new-orleans-45th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-delphox-mega-by-william-marks-at-naic-2026-new-orleans-place-45th",
+      "title": "William Marks - NAIC 2026, New Orleans - #45th"
+    },
+    {
+      "filename": "036-oliver-eskolin-naic-2026-new-orleans-47th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-dragonite-by-oliver-eskolin-at-naic-2026-new-orleans-place-47th",
+      "title": "Oliver Eskolin - NAIC 2026, New Orleans - #47th"
+    },
+    {
+      "filename": "037-swaroop-b-naic-2026-new-orleans-48th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/tyranitar-mega-scovillain-mega-by-swaroop-b-at-naic-2026-new-orleans-place-48th",
+      "title": "Swaroop B - NAIC 2026, New Orleans - #48th"
+    },
+    {
+      "filename": "038-gavin-michaels-naic-2026-new-orleans-50th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-incineroar-by-gavin-michaels-at-naic-2026-new-orleans-place-50th",
+      "title": "Gavin Michaels - NAIC 2026, New Orleans - #50th"
+    },
+    {
+      "filename": "039-toler-webb-naic-2026-new-orleans-53rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gardevoir-mega-garchomp-by-toler-webb-at-naic-2026-new-orleans-place-53rd",
+      "title": "Toler Webb - NAIC 2026, New Orleans - #53rd"
+    },
+    {
+      "filename": "040-kandai-nagatome-naic-2026-new-orleans-54th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-delphox-mega-by-kandai-nagatome-at-naic-2026-new-orleans-place-54th",
+      "title": "Kandai Nagatome - NAIC 2026, New Orleans - #54th"
+    },
+    {
+      "filename": "041-zie-hebert-naic-2026-new-orleans-56th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/tyranitar-mega-hydreigon-by-zie-hebert-at-naic-2026-new-orleans-place-56th",
+      "title": "Zie Hebert - NAIC 2026, New Orleans - #56th"
+    },
+    {
+      "filename": "042-connor-sparks-naic-2026-new-orleans-57th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-connor-sparks-at-naic-2026-new-orleans-place-57th",
+      "title": "Connor Sparks - NAIC 2026, New Orleans - #57th"
+    },
+    {
+      "filename": "043-benny-vasquez-naic-2026-new-orleans-58th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-aerodactyl-mega-by-benny-vasquez-at-naic-2026-new-orleans-place-58th",
+      "title": "Benny Vasquez - NAIC 2026, New Orleans - #58th"
+    },
+    {
+      "filename": "044-logan-allen-naic-2026-new-orleans-59th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-froslass-mega-by-logan-allen-at-naic-2026-new-orleans-place-59th",
+      "title": "Logan Allen - NAIC 2026, New Orleans - #59th"
+    },
+    {
+      "filename": "045-emilio-forbes-naic-2026-new-orleans-60th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-emilio-forbes-at-naic-2026-new-orleans-place-60th",
+      "title": "Emilio Forbes - NAIC 2026, New Orleans - #60th"
+    },
+    {
+      "filename": "046-rishi-gupta-naic-2026-new-orleans-61st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-ninetales-alola-by-rishi-gupta-at-naic-2026-new-orleans-place-61st",
+      "title": "Rishi Gupta - NAIC 2026, New Orleans - #61st"
+    },
+    {
+      "filename": "047-javier-valdes-naic-2026-new-orleans-62nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/blastoise-mega-sylveon-by-javier-valdes-at-naic-2026-new-orleans-place-62nd",
+      "title": "Javier Valdes - NAIC 2026, New Orleans - #62nd"
+    },
+    {
+      "filename": "048-yuhi-arima-naic-2026-new-orleans-63rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-yuhi-arima-at-naic-2026-new-orleans-place-63rd",
+      "title": "YUHI ARIMA - NAIC 2026, New Orleans - #63rd"
+    },
+    {
+      "filename": "049-charles-stephenson-naic-2026-new-orleans-64th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-aerodactyl-mega-by-charles-stephenson-at-naic-2026-new-orleans-place-64th",
+      "title": "Charles Stephenson - NAIC 2026, New Orleans - #64th"
+    },
+    {
+      "filename": "050-aj-morton-naic-2026-new-orleans-65th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-x-by-aj-morton-at-naic-2026-new-orleans-place-65th",
+      "title": "AJ Morton - NAIC 2026, New Orleans - #65th"
+    },
+    {
+      "filename": "051-jerry-woods-iii-naic-2026-new-orleans-66th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-jerry-woods-iii-at-naic-2026-new-orleans-place-66th",
+      "title": "Jerry Woods III - NAIC 2026, New Orleans - #66th"
+    },
+    {
+      "filename": "052-brandon-davis-naic-2026-new-orleans-67th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gardevoir-mega-talonflame-by-brandon-davis-at-naic-2026-new-orleans-place-67th",
+      "title": "Brandon Davis - NAIC 2026, New Orleans - #67th"
+    },
+    {
+      "filename": "053-montana-mott-naic-2026-new-orleans-68th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-montana-mott-at-naic-2026-new-orleans-place-68th",
+      "title": "Montana Mott - NAIC 2026, New Orleans - #68th"
+    },
+    {
+      "filename": "054-sebastian-bisbal-naic-2026-new-orleans-69th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-whimsicott-by-sebastian-bisbal-at-naic-2026-new-orleans-place-69th",
+      "title": "Sebastian Bisbal - NAIC 2026, New Orleans - #69th"
+    },
+    {
+      "filename": "055-sam-dioneda-naic-2026-new-orleans-70th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scizor-mega-dragonite-mega-by-sam-dioneda-at-naic-2026-new-orleans-place-70th",
+      "title": "Sam Dioneda - NAIC 2026, New Orleans - #70th"
+    },
+    {
+      "filename": "056-caelan-brown-naic-2026-new-orleans-71st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-froslass-mega-by-caelan-brown-at-naic-2026-new-orleans-place-71st",
+      "title": "Caelan Brown - NAIC 2026, New Orleans - #71st"
+    },
+    {
+      "filename": "057-matt-tennant-naic-2026-new-orleans-72nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-kingambit-by-matt-tennant-at-naic-2026-new-orleans-place-72nd",
+      "title": "Matt Tennant - NAIC 2026, New Orleans - #72nd"
+    },
+    {
+      "filename": "058-alberto-lara-naic-2026-new-orleans-73rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-tyranitar-mega-by-alberto-lara-at-naic-2026-new-orleans-place-73rd",
+      "title": "Alberto Lara - NAIC 2026, New Orleans - #73rd"
+    },
+    {
+      "filename": "059-michael-alex-arand-naic-2026-new-orleans-74th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-michael-alex-arand-at-naic-2026-new-orleans-place-74th",
+      "title": "Michael Alex Arand - NAIC 2026, New Orleans - #74th"
+    },
+    {
+      "filename": "060-tota-nambu-naic-2026-new-orleans-77th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/aerodactyl-mega-charizard-mega-y-by-tota-nambu-at-naic-2026-new-orleans-place-77th",
+      "title": "TOTA NAMBU - NAIC 2026, New Orleans - #77th"
+    },
+    {
+      "filename": "061-callie-murray-naic-2026-new-orleans-78th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-delphox-mega-by-callie-murray-at-naic-2026-new-orleans-place-78th",
+      "title": "Callie Murray - NAIC 2026, New Orleans - #78th"
+    },
+    {
+      "filename": "062-huang-jianzheng-naic-2026-new-orleans-80th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-scovillain-mega-by-huang-jianzheng-at-naic-2026-new-orleans-place-80th",
+      "title": "Huang Jianzheng - NAIC 2026, New Orleans - #80th"
+    },
+    {
+      "filename": "063-maxime-le-brun-naic-2026-new-orleans-81st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-floette-mega-by-maxime-le-brun-at-naic-2026-new-orleans-place-81st",
+      "title": "Maxime Le Brun - NAIC 2026, New Orleans - #81st"
+    },
+    {
+      "filename": "064-christian-rivera-naic-2026-new-orleans-82nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-dragonite-mega-by-christian-rivera-at-naic-2026-new-orleans-place-82nd",
+      "title": "Christian Rivera - NAIC 2026, New Orleans - #82nd"
+    },
+    {
+      "filename": "065-tommy-rohlfing-naic-2026-new-orleans-83rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-delphox-mega-by-tommy-rohlfing-at-naic-2026-new-orleans-place-83rd",
+      "title": "Tommy Rohlfing - NAIC 2026, New Orleans - #83rd"
+    },
+    {
+      "filename": "066-bradley-pham-naic-2026-new-orleans-84th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/venusaur-mega-aerodactyl-mega-by-bradley-pham-at-naic-2026-new-orleans-place-84th",
+      "title": "Bradley Pham - NAIC 2026, New Orleans - #84th"
+    },
+    {
+      "filename": "067-nicholas-hegel-naic-2026-new-orleans-86th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gyarados-mega-floette-mega-by-nicholas-hegel-at-naic-2026-new-orleans-place-86th",
+      "title": "Nicholas Hegel - NAIC 2026, New Orleans - #86th"
+    },
+    {
+      "filename": "068-dorian-kang-naic-2026-new-orleans-88th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-froslass-mega-by-dorian-kang-at-naic-2026-new-orleans-place-88th",
+      "title": "Dorian Kang - NAIC 2026, New Orleans - #88th"
+    },
+    {
+      "filename": "069-rio-alexander-naic-2026-new-orleans-89th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-vivillon-by-rio-alexander-at-naic-2026-new-orleans-place-89th",
+      "title": "Rio Alexander - NAIC 2026, New Orleans - #89th"
+    },
+    {
+      "filename": "070-frederik-h-j-nielsen-naic-2026-new-orleans-90th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-floette-mega-by-frederik-h-j-nielsen-at-naic-2026-new-orleans-place-90th",
+      "title": "Frederik H\u00f8j Nielsen - NAIC 2026, New Orleans - #90th"
+    },
+    {
+      "filename": "071-jonathan-martin-naic-2026-new-orleans-91st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-sneasler-by-jonathan-martin-at-naic-2026-new-orleans-place-91st",
+      "title": "Jonathan Martin - NAIC 2026, New Orleans - #91st"
+    },
+    {
+      "filename": "072-luke-kroll-naic-2026-new-orleans-93rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-dragonite-mega-by-luke-kroll-at-naic-2026-new-orleans-place-93rd",
+      "title": "Luke Kroll - NAIC 2026, New Orleans - #93rd"
+    },
+    {
+      "filename": "073-arthur-collier-naic-2026-new-orleans-94th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/venusaur-mega-charizard-mega-x-by-arthur-collier-at-naic-2026-new-orleans-place-94th",
+      "title": "Arthur Collier - NAIC 2026, New Orleans - #94th"
+    },
+    {
+      "filename": "074-chase-lybbert-naic-2026-new-orleans-95th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/venusaur-mega-lopunny-mega-by-chase-lybbert-at-naic-2026-new-orleans-place-95th",
+      "title": "Chase Lybbert - NAIC 2026, New Orleans - #95th"
+    },
+    {
+      "filename": "075-chase-rumpca-naic-2026-new-orleans-96th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-talonflame-by-chase-rumpca-at-naic-2026-new-orleans-place-96th",
+      "title": "Chase Rumpca - NAIC 2026, New Orleans - #96th"
+    },
+    {
+      "filename": "076-wu-yichun-naic-2026-new-orleans-97th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-aerodactyl-mega-by-wu-yichun-at-naic-2026-new-orleans-place-97th",
+      "title": "Wu Yichun - NAIC 2026, New Orleans - #97th"
+    },
+    {
+      "filename": "077-ian-larson-naic-2026-new-orleans-98th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-froslass-mega-by-ian-larson-at-naic-2026-new-orleans-place-98th",
+      "title": "Ian Larson - NAIC 2026, New Orleans - #98th"
+    },
+    {
+      "filename": "078-taylor-kamel-frank-naic-2026-new-orleans-99th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/blastoise-mega-kangaskhan-mega-by-taylor-kamel-frank-at-naic-2026-new-orleans-place-99th",
+      "title": "Taylor Kamel-Frank - NAIC 2026, New Orleans - #99th"
+    },
+    {
+      "filename": "079-erik-holmstrom-naic-2026-new-orleans-101st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-dragonite-mega-by-erik-holmstrom-at-naic-2026-new-orleans-place-101st",
+      "title": "Erik Holmstrom - NAIC 2026, New Orleans - #101st"
+    },
+    {
+      "filename": "080-mason-cutler-naic-2026-new-orleans-102nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-floette-mega-by-mason-cutler-at-naic-2026-new-orleans-place-102nd",
+      "title": "Mason Cutler - NAIC 2026, New Orleans - #102nd"
+    },
+    {
+      "filename": "081-jake-muller-naic-2026-new-orleans-103rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-kingambit-by-jake-muller-at-naic-2026-new-orleans-place-103rd",
+      "title": "Jake Muller - NAIC 2026, New Orleans - #103rd"
+    },
+    {
+      "filename": "082-eric-stuart-naic-2026-new-orleans-106th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-ninetales-alola-by-eric-stuart-at-naic-2026-new-orleans-place-106th",
+      "title": "Eric Stuart - NAIC 2026, New Orleans - #106th"
+    },
+    {
+      "filename": "083-kyle-livinghouse-naic-2026-new-orleans-107th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-espathra-by-kyle-livinghouse-at-naic-2026-new-orleans-place-107th",
+      "title": "Kyle Livinghouse - NAIC 2026, New Orleans - #107th"
+    },
+    {
+      "filename": "084-trista-medine-naic-2026-new-orleans-109th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/clefable-mega-froslass-mega-by-trista-medine-at-naic-2026-new-orleans-place-109th",
+      "title": "Trista Medine - NAIC 2026, New Orleans - #109th"
+    },
+    {
+      "filename": "085-bradley-barbee-naic-2026-new-orleans-111th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/dragonite-mega-pelipper-by-bradley-barbee-at-naic-2026-new-orleans-place-111th",
+      "title": "Bradley Barbee - NAIC 2026, New Orleans - #111th"
+    },
+    {
+      "filename": "086-stephen-williams-naic-2026-new-orleans-112th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-x-by-stephen-williams-at-naic-2026-new-orleans-place-112th",
+      "title": "Stephen Williams - NAIC 2026, New Orleans - #112th"
+    },
+    {
+      "filename": "087-nathan-cox-naic-2026-new-orleans-116th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-scovillain-mega-by-nathan-cox-at-naic-2026-new-orleans-place-116th",
+      "title": "Nathan Cox - NAIC 2026, New Orleans - #116th"
+    },
+    {
+      "filename": "088-rowan-hall-naic-2026-new-orleans-117th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/dragonite-mega-froslass-mega-by-rowan-hall-at-naic-2026-new-orleans-place-117th",
+      "title": "Rowan Hall - NAIC 2026, New Orleans - #117th"
+    },
+    {
+      "filename": "089-cole-cisakowski-naic-2026-new-orleans-118th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/venusaur-mega-floette-mega-by-cole-cisakowski-at-naic-2026-new-orleans-place-118th",
+      "title": "Cole Cisakowski - NAIC 2026, New Orleans - #118th"
+    },
+    {
+      "filename": "090-joao-victor-basilato-dos-santos-naic-2026-new-orleans-121st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-froslass-mega-by-joao-victor-basilato-dos-santos-at-naic-2026-new-orleans-place-121st",
+      "title": "Joao Victor Basilato Dos Santos - NAIC 2026, New Orleans - #121st"
+    },
+    {
+      "filename": "091-april-hooge-naic-2026-new-orleans-122nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/kangaskhan-mega-gyarados-mega-by-april-hooge-at-naic-2026-new-orleans-place-122nd",
+      "title": "April Hooge - NAIC 2026, New Orleans - #122nd"
+    },
+    {
+      "filename": "092-benji-carney-naic-2026-new-orleans-123rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-dragonite-by-benji-carney-at-naic-2026-new-orleans-place-123rd",
+      "title": "Benji Carney - NAIC 2026, New Orleans - #123rd"
+    },
+    {
+      "filename": "093-celeste-scalzo-naic-2026-new-orleans-124th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/lopunny-mega-chandelure-by-celeste-scalzo-at-naic-2026-new-orleans-place-124th",
+      "title": "Celeste Scalzo - NAIC 2026, New Orleans - #124th"
+    },
+    {
+      "filename": "094-joseph-ugarte-naic-2026-new-orleans-125th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/tyranitar-mega-excadrill-by-joseph-ugarte-at-naic-2026-new-orleans-place-125th",
+      "title": "Joseph Ugarte - NAIC 2026, New Orleans - #125th"
+    },
+    {
+      "filename": "095-lucas-rangel-naic-2026-new-orleans-126th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-kingambit-by-lucas-rangel-at-naic-2026-new-orleans-place-126th",
+      "title": "Lucas Rangel - NAIC 2026, New Orleans - #126th"
+    },
+    {
+      "filename": "096-brandon-tuchtenhagen-naic-2026-new-orleans-127th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/scovillain-mega-froslass-mega-by-brandon-tuchtenhagen-at-naic-2026-new-orleans-place-127th",
+      "title": "Brandon Tuchtenhagen - NAIC 2026, New Orleans - #127th"
+    },
+    {
+      "filename": "097-rob-mcneilly-naic-2026-new-orleans-128th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-rob-mcneilly-at-naic-2026-new-orleans-place-128th",
+      "title": "Rob McNeilly - NAIC 2026, New Orleans - #128th"
+    },
+    {
+      "filename": "098-chase-thompson-naic-2026-new-orleans-129th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/tyranitar-mega-froslass-mega-by-chase-thompson-at-naic-2026-new-orleans-place-129th",
+      "title": "Chase Thompson - NAIC 2026, New Orleans - #129th"
+    },
+    {
+      "filename": "099-michael-wagner-naic-2026-new-orleans-130th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-kingambit-by-michael-wagner-at-naic-2026-new-orleans-place-130th",
+      "title": "Michael Wagner - NAIC 2026, New Orleans - #130th"
+    },
+    {
+      "filename": "100-shane-gaffney-naic-2026-new-orleans-133rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-sylveon-by-shane-gaffney-at-naic-2026-new-orleans-place-133rd",
+      "title": "Shane Gaffney - NAIC 2026, New Orleans - #133rd"
+    },
+    {
+      "filename": "101-mateo-rodriguez-naic-2026-new-orleans-136th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/delphox-mega-maushold-family-of-three-by-mateo-rodriguez-at-naic-2026-new-orleans-place-136th",
+      "title": "Mateo Rodriguez - NAIC 2026, New Orleans - #136th"
+    },
+    {
+      "filename": "102-noah-smith-naic-2026-new-orleans-137th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/froslass-mega-charizard-mega-y-by-noah-smith-at-naic-2026-new-orleans-place-137th",
+      "title": "Noah Smith - NAIC 2026, New Orleans - #137th"
+    },
+    {
+      "filename": "103-rocco-beckman-naic-2026-new-orleans-138th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/blastoise-mega-camerupt-mega-by-rocco-beckman-at-naic-2026-new-orleans-place-138th",
+      "title": "Rocco Beckman - NAIC 2026, New Orleans - #138th"
+    },
+    {
+      "filename": "104-simon-bernard-naic-2026-new-orleans-139th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/delphox-mega-floette-mega-by-simon-bernard-at-naic-2026-new-orleans-place-139th",
+      "title": "Simon Bernard - NAIC 2026, New Orleans - #139th"
+    },
+    {
+      "filename": "105-ethan-wang-naic-2026-new-orleans-140th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-x-floette-mega-by-ethan-wang-at-naic-2026-new-orleans-place-140th",
+      "title": "Ethan Wang - NAIC 2026, New Orleans - #140th"
+    },
+    {
+      "filename": "106-sa-l-morones-naic-2026-new-orleans-141st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/tyranitar-mega-scizor-mega-by-saul-morones-at-naic-2026-new-orleans-place-141st",
+      "title": "Sa\u00fal Morones - NAIC 2026, New Orleans - #141st"
+    },
+    {
+      "filename": "107-alex-rubinoff-naic-2026-new-orleans-142nd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/dragonite-mega-charizard-mega-y-by-alex-rubinoff-at-naic-2026-new-orleans-place-142nd",
+      "title": "Alex Rubinoff - NAIC 2026, New Orleans - #142nd"
+    },
+    {
+      "filename": "108-nitesh-manem-naic-2026-new-orleans-143rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/gengar-mega-sneasler-by-nitesh-manem-at-naic-2026-new-orleans-place-143rd",
+      "title": "Nitesh Manem - NAIC 2026, New Orleans - #143rd"
+    },
+    {
+      "filename": "109-caleb-ellis-naic-2026-new-orleans-144th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-y-floette-mega-by-caleb-ellis-at-naic-2026-new-orleans-place-144th",
+      "title": "Caleb Ellis - NAIC 2026, New Orleans - #144th"
+    },
+    {
+      "filename": "110-kevin-guzman-naic-2026-new-orleans-145th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-camerupt-mega-by-kevin-guzman-at-naic-2026-new-orleans-place-145th",
+      "title": "Kevin Guzman - NAIC 2026, New Orleans - #145th"
+    },
+    {
+      "filename": "111-andrew-briceno-naic-2026-new-orleans-146th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-incineroar-by-andrew-briceno-at-naic-2026-new-orleans-place-146th",
+      "title": "Andrew Briceno - NAIC 2026, New Orleans - #146th"
+    },
+    {
+      "filename": "112-matheus-carretta-naic-2026-new-orleans-148th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-scovillain-mega-by-matheus-carretta-at-naic-2026-new-orleans-place-148th",
+      "title": "Matheus Carretta - NAIC 2026, New Orleans - #148th"
+    },
+    {
+      "filename": "113-logan-green-naic-2026-new-orleans-149th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/charizard-mega-x-scizor-mega-by-logan-green-at-naic-2026-new-orleans-place-149th",
+      "title": "Logan Green - NAIC 2026, New Orleans - #149th"
+    },
+    {
+      "filename": "114-jules-gallo-naic-2026-new-orleans-150th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/dragonite-mega-scovillain-mega-by-jules-gallo-at-naic-2026-new-orleans-place-150th",
+      "title": "Jules Gallo - NAIC 2026, New Orleans - #150th"
+    },
+    {
+      "filename": "115-james-fos-naic-2026-new-orleans-151st.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/delphox-mega-floette-mega-by-james-fos-at-naic-2026-new-orleans-place-151st",
+      "title": "James Fos - NAIC 2026, New Orleans - #151st"
+    },
+    {
+      "filename": "116-adrian-hazel-naic-2026-new-orleans-153rd.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-charizard-mega-y-by-adrian-hazel-at-naic-2026-new-orleans-place-153rd",
+      "title": "Adrian Hazel - NAIC 2026, New Orleans - #153rd"
+    },
+    {
+      "filename": "117-violeta-reyes-naic-2026-new-orleans-154th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/delphox-mega-aerodactyl-mega-by-violeta-reyes-at-naic-2026-new-orleans-place-154th",
+      "title": "Violeta Reyes - NAIC 2026, New Orleans - #154th"
+    },
+    {
+      "filename": "118-seth-ellsworth-naic-2026-new-orleans-156th.txt",
+      "pokemon_count": 6,
+      "source_url": "https://metavgc.com/pt/times/floette-mega-camerupt-mega-by-seth-ellsworth-at-naic-2026-new-orleans-place-156th",
+      "title": "Seth Ellsworth - NAIC 2026, New Orleans - #156th"
+    }
+  ]
+}

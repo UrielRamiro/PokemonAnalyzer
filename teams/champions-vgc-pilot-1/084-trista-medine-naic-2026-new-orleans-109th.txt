@@ -1,0 +1,53 @@
+Politoed @ Sitrus Berry
+Ability: Drizzle
+EVs: 32 HP / 25 Def / 6 SpD / 3 Spe
+Bold Nature
+- Weather Ball
+- Hypnosis
+- Perish Song
+- Protect
+
+Sinistcha @ Colbur Berry
+Ability: Hospitality
+EVs: 32 HP / 14 Def / 20 SpD
+Bold Nature
+- Rage Powder
+- Protect
+- Trick Room
+- Matcha Gotcha
+
+Archaludon @ Leftovers
+Ability: Stamina
+EVs: 32 HP / 5 SpA / 15 SpD / 14 Spe
+Modest Nature
+- Protect
+- Flash Cannon
+- Electro Shot
+- Dragon Pulse
+
+Clefable Mega @ Clefablite
+Ability: Magic Bounce
+EVs: 32 HP / 32 SpA / 2 SpD
+Modest Nature
+- Follow Me
+- Dazzling Gleam
+- Psyshock
+- Protect
+
+Arcanine-Hisui @ Focus Sash
+Ability: Rock Head
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Flare Blitz
+- Head Smash
+- Protect
+- Rock Slide
+
+Froslass Mega @ Froslassite
+Ability: Snow Warning
+EVs: 24 HP / 8 SpA / 4 SpD / 30 Spe
+Modest Nature
+- Protect
+- Aurora Veil
+- Blizzard
+- Rain Dance

@@ -1,0 +1,53 @@
+Kingambit @ Chople Berry
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Protect
+- Kowtow Cleave
+- Sucker Punch
+- Iron Head
+
+Charizard Mega Y @ Charizardite Y
+Ability: Drought
+EVs: 20 HP / 32 Def / 1 SpA / 13 Spe
+Timid Nature
+- Protect
+- Heat Wave
+- Weather Ball
+- Solar Beam
+
+Aerodactyl Mega @ Aerodactylite
+Ability: Tough Claws
+EVs: 22 HP / 12 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Dual Wingbeat
+- Tailwind
+- Rock Slide
+
+Basculegion-M @ Focus Sash
+Ability: Adaptability
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Aqua Jet
+- Liquidation
+- Last Respects
+
+Garchomp @ Choice Scarf
+Ability: Rough Skin
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Rock Slide
+- Dragon Claw
+- Stomping Tantrum
+- Earthquake
+
+Sylveon @ Fairy Feather
+Ability: Pixilate
+EVs: 9 HP / 22 Def / 30 SpA / 5 Spe
+Modest Nature
+- Protect
+- Hyper Beam
+- Quick Attack
+- Hyper Voice

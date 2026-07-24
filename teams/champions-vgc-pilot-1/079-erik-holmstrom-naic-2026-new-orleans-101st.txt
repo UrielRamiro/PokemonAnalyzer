@@ -1,0 +1,53 @@
+Scovillain Mega @ Scovillainite
+Ability: Spicy Spray
+EVs: 32 HP / 19 Def / 15 SpD
+Calm Nature
+- Leech Seed
+- Overheat
+- Rage Powder
+- Protect
+
+Sneasler @ White Herb
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Close Combat
+- Dire Claw
+- Fake Out
+- Protect
+
+Dragonite Mega @ Dragoninite
+Ability: Multiscale
+EVs: 2 HP / 32 SpA / 32 Spe
+Modest Nature
+- Dragon Pulse
+- Flamethrower
+- Thunderbolt
+- Protect
+
+Garchomp @ Choice Scarf
+Ability: Rough Skin
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Dragon Claw
+- Stomping Tantrum
+- Rock Slide
+- Earthquake
+
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Kowtow Cleave
+- Swords Dance
+- Sucker Punch
+- Protect
+
+Gyarados @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 29 Def / 4 SpD / 1 Spe
+Careful Nature
+- Waterfall
+- Thunder Wave
+- Ice Fang
+- Helping Hand

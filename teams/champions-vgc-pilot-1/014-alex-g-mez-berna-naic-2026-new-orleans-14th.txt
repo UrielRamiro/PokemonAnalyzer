@@ -1,0 +1,53 @@
+Garchomp @ Soft Sand
+Ability: Rough Skin
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Earthquake
+- Dragon Claw
+- Stomping Tantrum
+
+Sylveon @ Fairy Feather
+Ability: Pixilate
+EVs: 9 HP / 22 Def / 30 SpA / 5 Spe
+Modest Nature
+- Protect
+- Hyper Voice
+- Quick Attack
+- Hyper Beam
+
+Farigiraf @ Sitrus Berry
+Ability: Armor Tail
+EVs: 31 HP / 14 Def / 13 SpA / 8 SpD
+Quiet Nature
+- Trick Room
+- Twin Beam
+- Roar
+- Thunderbolt
+
+Aerodactyl Mega @ Aerodactylite
+Ability: Tough Claws
+EVs: 22 HP / 12 Atk / 32 Spe
+Jolly Nature
+- Rock Slide
+- Ice Fang
+- Tailwind
+- Dual Wingbeat
+
+Kingambit @ Focus Sash
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Kowtow Cleave
+- Iron Head
+- Low Kick
+- Sucker Punch
+
+Charizard Mega Y @ Charizardite Y
+Ability: Drought
+EVs: 20 HP / 32 Def / 1 SpA / 13 Spe
+Timid Nature
+- Protect
+- Heat Wave
+- Weather Ball
+- Solar Beam

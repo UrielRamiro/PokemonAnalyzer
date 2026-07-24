@@ -1,0 +1,53 @@
+Sneasler @ White Herb
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Close Combat
+- Gunk Shot
+- Fake Out
+- Protect
+
+Scovillain Mega @ Scovillainite
+Ability: Spicy Spray
+EVs: 32 HP / 19 Def / 15 SpD
+Calm Nature
+- Overheat
+- Rage Powder
+- Leech Seed
+- Protect
+
+Kingambit @ Chople Berry
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Kowtow Cleave
+- Protect
+- Low Kick
+- Sucker Punch
+
+Toxapex @ Leftovers
+Ability: Regenerator
+EVs: 32 HP / 18 Def / 16 SpD
+Bold Nature
+- Infestation
+- Wide Guard
+- Recover
+- Protect
+
+Snorlax @ Sitrus Berry
+Ability: Thick Fat
+EVs: 21 HP / 30 Def / 15 SpD
+Relaxed Nature
+- Fissure
+- Yawn
+- Protect
+- Double-Edge
+
+Basculegion-M @ Choice Scarf
+Ability: Adaptability
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Wave Crash
+- Last Respects
+- Flip Turn
+- Aqua Jet

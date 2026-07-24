@@ -1,0 +1,100 @@
+{
+  "generation": 9,
+  "format_id": "gen9ou",
+  "turn": 12,
+  "weather": null,
+  "terrain": null,
+  "player": {
+    "active": {
+      "species": "Great Tusk",
+      "current_hp": 320
+    },
+    "team": [
+      {
+        "species": "Great Tusk",
+        "item": "Leftovers",
+        "ability": "Protosynthesis",
+        "level": 100,
+        "nature": "Jolly",
+        "evs": {
+          "hp": 0,
+          "atk": 252,
+          "def": 4,
+          "spe": 252
+        },
+        "moves": [
+          "Headlong Rush",
+          "Close Combat",
+          "Rapid Spin",
+          "Knock Off"
+        ]
+      },
+      {
+        "species": "Kingambit",
+        "item": "Black Glasses",
+        "ability": "Supreme Overlord",
+        "level": 100,
+        "nature": "Adamant",
+        "evs": {
+          "hp": 252,
+          "atk": 252,
+          "spd": 4
+        },
+        "moves": [
+          "Kowtow Cleave",
+          "Sucker Punch",
+          "Iron Head",
+          "Swords Dance"
+        ]
+      }
+    ],
+    "fainted_ids": [],
+    "stealth_rock": false
+  },
+  "opponent": {
+    "active": {
+      "species": "Kingambit",
+      "current_hp": 210
+    },
+    "team": [
+      {
+        "species": "Kingambit",
+        "item": "Black Glasses",
+        "ability": "Supreme Overlord",
+        "level": 100,
+        "nature": "Adamant",
+        "evs": {
+          "hp": 252,
+          "atk": 252,
+          "spd": 4
+        },
+        "moves": [
+          "Kowtow Cleave",
+          "Sucker Punch",
+          "Iron Head",
+          "Swords Dance"
+        ]
+      },
+      {
+        "species": "Dragapult",
+        "item": "Choice Specs",
+        "ability": "Infiltrator",
+        "level": 100,
+        "nature": "Timid",
+        "evs": {
+          "spa": 252,
+          "spd": 4,
+          "spe": 252
+        },
+        "moves": [
+          "Draco Meteor",
+          "Shadow Ball",
+          "Flamethrower",
+          "U-turn"
+        ]
+      }
+    ],
+    "fainted_ids": [],
+    "stealth_rock": false
+  }
+}

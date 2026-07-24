@@ -1,0 +1,53 @@
+Mamoswine @ Focus Sash
+Ability: Oblivious
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Protect
+- Icicle Crash
+- Earthquake
+- Ice Shard
+
+Toxapex @ Leftovers
+Ability: Regenerator
+EVs: 32 HP / 18 Def / 16 SpD
+Bold Nature
+- Baneful Bunker
+- Infestation
+- Toxic
+- Wide Guard
+
+Sneasler @ White Herb
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Close Combat
+- Fake Out
+- Dire Claw
+
+Hydreigon @ Choice Scarf
+Ability: Levitate
+EVs: 2 HP / 32 SpA / 32 Spe
+Modest Nature
+- Dark Pulse
+- Earth Power
+- Snarl
+- Draco Meteor
+
+Charizard Mega Y @ Charizardite Y
+Ability: Drought
+EVs: 20 HP / 32 Def / 1 SpA / 13 Spe
+Timid Nature
+- Protect
+- Heat Wave
+- Solar Beam
+- Weather Ball
+
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Fake Out
+- Parting Shot
+- Flare Blitz
+- Throat Chop

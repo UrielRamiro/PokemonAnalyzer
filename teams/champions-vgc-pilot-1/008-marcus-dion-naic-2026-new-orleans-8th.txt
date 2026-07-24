@@ -1,0 +1,53 @@
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Protect
+- Kowtow Cleave
+- Sucker Punch
+- Swords Dance
+
+Sneasler @ White Herb
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Close Combat
+- Gunk Shot
+- Fake Out
+
+Lycanroc Dusk @ Focus Sash
+Ability: Tough Claws
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Protect
+- Accelerock
+- Rock Slide
+- Close Combat
+
+Scovillain Mega @ Scovillainite
+Ability: Spicy Spray
+EVs: 32 HP / 19 Def / 15 SpD
+Calm Nature
+- Protect
+- Overheat
+- Giga Drain
+- Rage Powder
+
+Basculegion-M @ Sitrus Berry
+Ability: Adaptability
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Wave Crash
+- Last Respects
+- Aqua Jet
+
+Froslass Mega @ Froslassite
+Ability: Snow Warning
+EVs: 24 HP / 8 SpA / 4 SpD / 30 Spe
+Modest Nature
+- Protect
+- Blizzard
+- Shadow Ball
+- Aurora Veil

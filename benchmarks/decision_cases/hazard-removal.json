@@ -1,0 +1,57 @@
+{
+  "case_id": "hazard-removal",
+  "description": "Great Tusk should prefer Rapid Spin when attacking into an immunity and Stealth Rock is up.",
+  "state": {
+    "generation": 9,
+    "format_id": "gen9ou",
+    "turn": 1,
+    "player": {
+      "active": {
+        "species": "Great Tusk",
+        "current_hp": 300
+      },
+      "team": [
+        {
+          "species": "Great Tusk",
+          "item": "Heavy-Duty Boots",
+          "ability": "Protosynthesis",
+          "evs": {
+            "atk": 252
+          },
+          "moves": [
+            "Headlong Rush",
+            "Rapid Spin"
+          ]
+        }
+      ],
+      "stealth_rock": true
+    },
+    "opponent": {
+      "active": {
+        "species": "Rotom-Wash",
+        "current_hp": 300
+      },
+      "team": [
+        {
+          "species": "Rotom-Wash",
+          "ability": "Levitate",
+          "moves": [
+            "Hydro Pump"
+          ]
+        }
+      ]
+    }
+  },
+  "acceptable_actions": [
+    {
+      "type": "move",
+      "move_id": "rapidspin"
+    }
+  ],
+  "forbidden_actions": [
+    {
+      "type": "move",
+      "move_id": "headlongrush"
+    }
+  ]
+}

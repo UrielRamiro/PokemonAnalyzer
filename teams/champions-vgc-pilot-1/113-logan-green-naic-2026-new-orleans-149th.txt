@@ -1,0 +1,53 @@
+Ninetales-Alola @ Choice Scarf
+Ability: Snow Warning
+EVs: 13 HP / 21 SpA / 32 Spe
+Timid Nature
+- Icy Wind
+- Blizzard
+- Freeze-Dry
+- Encore
+
+Incineroar @ Passho Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Flare Blitz
+- Darkest Lariat
+- Parting Shot
+- Fake Out
+
+Milotic @ Leftovers
+Ability: Competitive
+EVs: 32 HP / 21 Def / 12 SpD / 1 Spe
+Bold Nature
+- Muddy Water
+- Recover
+- Coil
+- Hypnosis
+
+Sneasler @ White Herb
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Fake Out
+- Dire Claw
+- Coaching
+- Close Combat
+
+Charizard Mega X @ Charizardite X
+Ability: Tough Claws
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Protect
+- Dragon Dance
+- Dragon Claw
+- Flare Blitz
+
+Scizor Mega @ Scizorite
+Ability: Technician
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Protect
+- Bullet Punch
+- Bug Bite
+- Swords Dance

@@ -1,0 +1,53 @@
+Hydreigon @ Choice Scarf
+Ability: Levitate
+EVs: 2 HP / 32 SpA / 32 Spe
+Modest Nature
+- Dark Pulse
+- Draco Meteor
+- Flamethrower
+- Snarl
+
+Rotom-Wash @ Sitrus Berry
+Ability: Levitate
+EVs: 19 HP / 13 Def / 15 SpA / 19 Spe
+Modest Nature
+- Thunderbolt
+- Will-O-Wisp
+- Protect
+- Hydro Pump
+
+Sinistcha @ Colbur Berry
+Ability: Hospitality
+EVs: 32 HP / 14 Def / 20 SpD
+Bold Nature
+- Rage Powder
+- Matcha Gotcha
+- Protect
+- Life Dew
+
+Excadrill @ Focus Sash
+Ability: Sand Rush
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Rock Slide
+- Protect
+- Earthquake
+- Iron Head
+
+Corviknight @ Leftovers
+Ability: Mirror Armor
+EVs: 32 HP / 2 Atk / 32 SpD
+Careful Nature
+- Brave Bird
+- Bulk Up
+- Tailwind
+- Roost
+
+Tyranitar Mega @ Tyranitarite
+Ability: Sand Stream
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Rock Slide
+- Dragon Dance
+- Knock Off
+- Protect

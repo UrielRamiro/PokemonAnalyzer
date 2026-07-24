@@ -1,0 +1,53 @@
+Politoed @ Sitrus Berry
+Ability: Drizzle
+EVs: 32 HP / 25 Def / 6 SpD / 3 Spe
+Bold Nature
+- Weather Ball
+- Hypnosis
+- Perish Song
+- Protect
+
+Gengar Mega @ Gengarite
+Ability: Shadow Tag
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Sludge Bomb
+- Shadow Ball
+- Perish Song
+- Protect
+
+Sinistcha @ Colbur Berry
+Ability: Hospitality
+EVs: 32 HP / 14 Def / 20 SpD
+Bold Nature
+- Matcha Gotcha
+- Trick Room
+- Rage Powder
+- Protect
+
+Incineroar @ Chople Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Fake Out
+- Protect
+- Flare Blitz
+- Parting Shot
+
+Archaludon @ Leftovers
+Ability: Stamina
+EVs: 32 HP / 5 SpA / 15 SpD / 14 Spe
+Modest Nature
+- Electro Shot
+- Dragon Pulse
+- Flash Cannon
+- Protect
+
+Froslass Mega @ Froslassite
+Ability: Snow Warning
+EVs: 24 HP / 8 SpA / 4 SpD / 30 Spe
+Modest Nature
+- Blizzard
+- Aurora Veil
+- Rain Dance
+- Protect

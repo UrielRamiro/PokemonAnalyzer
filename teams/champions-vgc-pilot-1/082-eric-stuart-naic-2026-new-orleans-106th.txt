@@ -1,0 +1,53 @@
+Ninetales-Alola @ Never-Melt Ice
+Ability: Snow Warning
+EVs: 13 HP / 21 SpA / 32 Spe
+Timid Nature
+- Protect
+- Encore
+- Disable
+- Blizzard
+
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Protect
+- Flare Blitz
+- Parting Shot
+- Fake Out
+
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Kowtow Cleave
+- Protect
+- Sucker Punch
+- Swords Dance
+
+Dragonite @ Dragon Fang
+Ability: Multiscale
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Protect
+- Extreme Speed
+- Dragon Claw
+- Low Kick
+
+Gengar Mega @ Gengarite
+Ability: Shadow Tag
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Shadow Ball
+- Sludge Bomb
+- Perish Song
+- Protect
+
+Sneasler @ Focus Sash
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Fake Out
+- Close Combat
+- Dire Claw

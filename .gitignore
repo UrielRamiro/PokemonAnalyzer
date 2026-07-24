@@ -1,0 +1,62 @@
+# Local environments
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Node dependencies/build outputs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python caches/build outputs
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Editor and OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Temporary workspaces
+.tmp_tests/
+.tmp_showdown/
+tmp*/
+temp*/
+
+# Generated battle/replay artifacts
+runs/
+battles/
+data/replays/
+teams/_compat_check_*/
+
+# Generated data/import outputs
+data/raw/
+data/normalized/
+
+# Generated policy outputs
+data/policy/datasets/
+data/policy/eval/
+data/policy/examples/
+data/policy/reports/
+
+# Local/generated database files
+data/database/
+*.db
+*.sqlite
+*.sqlite3
+
+# Large benchmark artifacts are stored in data/database and runs.
+# Keep benchmarks/decision_cases versioned; they are regression fixtures.

@@ -1,0 +1,16 @@
+{
+  "name": "pokemon-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Competitive Pokemon data and decision engine.",
+  "scripts": {
+    "postinstall": "npm run build:showdown",
+    "build:showdown": "node node_modules/pokemon-showdown/build",
+    "battle": "node scripts/local_battle_runner.js",
+    "export:showdown": "node scripts/export_showdown_with_node.js"
+  },
+  "dependencies": {
+    "@smogon/calc": "^0.11.0",
+    "pokemon-showdown": "https://github.com/smogon/pokemon-showdown.git#master"
+  }
+}

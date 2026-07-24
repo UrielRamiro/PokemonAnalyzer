@@ -1,0 +1,36 @@
+campaign_id: champions-vgc-regmb-doubles-canary-1
+format_id: gen9championsvgc2026regmb
+simulator_version: pokemon-showdown-champions-regmb
+engine_version: pokebrain-local
+target_battles: 4
+master_seed: 20260727
+team_pool_id: champions-vgc-pilot-1
+team_pool_path: teams/champions-vgc-pilot-1
+max_turns: 40
+timeout_seconds: 180
+artifact_root: battles
+database_path: data/database/battle_campaigns.db
+agent_matchups:
+  - matchup_id: random-vs-random
+    agent_1_id: random
+    agent_2_id: random
+    weight: 1
+  - matchup_id: heuristic-vs-random
+    agent_1_id: pokebrain-v1
+    agent_2_id: random
+    weight: 1
+  - matchup_id: random-vs-heuristic
+    agent_1_id: random
+    agent_2_id: pokebrain-v1
+    weight: 1
+  - matchup_id: heuristic-vs-heuristic
+    agent_1_id: pokebrain-v1
+    agent_2_id: pokebrain-v1
+    weight: 1
+coverage_targets:
+  - bucket: switch
+    minimum_examples: 1
+  - bucket: forced_switch
+    minimum_examples: 1
+  - bucket: late_turn
+    minimum_examples: 1

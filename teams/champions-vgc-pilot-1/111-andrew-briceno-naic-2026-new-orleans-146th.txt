@@ -1,0 +1,53 @@
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Flare Blitz
+- Parting Shot
+- Helping Hand
+- Fake Out
+
+Dragapult @ Focus Sash
+Ability: Clear Body
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Phantom Force
+- Draco Meteor
+- Psychic Fangs
+- Protect
+
+Floette Mega @ Floettite
+Ability: Flower Veil
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Protect
+- Moonblast
+- Draining Kiss
+- Calm Mind
+
+Ceruledge @ Colbur Berry
+Ability: Flash Fire
+EVs: 1 HP / 32 Atk / 1 SpD / 32 Spe
+Jolly Nature
+- Protect
+- Shadow Sneak
+- Bitter Blade
+- Bulk Up
+
+Sinistcha @ Kasib Berry
+Ability: Hospitality
+EVs: 32 HP / 14 Def / 20 SpD
+Bold Nature
+- Protect
+- Matcha Gotcha
+- Rage Powder
+- Life Dew
+
+Milotic @ Leftovers
+Ability: Competitive
+EVs: 32 HP / 21 Def / 12 SpD / 1 Spe
+Bold Nature
+- Protect
+- Coil
+- Hypnosis
+- Hydro Pump

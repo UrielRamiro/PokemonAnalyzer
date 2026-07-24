@@ -1,0 +1,53 @@
+Dragapult @ Choice Specs
+Ability: Infiltrator
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Draco Meteor
+- Shadow Ball
+- U-turn
+- Flamethrower
+
+Great Tusk @ Leftovers
+Ability: Protosynthesis
+EVs: 252 HP / 252 Atk / 4 Spe
+Adamant Nature
+- Headlong Rush
+- Close Combat
+- Knock Off
+- Rapid Spin
+
+Kingambit @ Black Glasses
+Ability: Supreme Overlord
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+- Kowtow Cleave
+- Sucker Punch
+- Swords Dance
+- Iron Head
+
+Iron Valiant @ Booster Energy
+Ability: Quark Drive
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Moonblast
+- Aura Sphere
+- Thunderbolt
+- Calm Mind
+
+Corviknight @ Rocky Helmet
+Ability: Pressure
+EVs: 252 HP / 252 Def / 4 SpD
+Impish Nature
+- Brave Bird
+- Body Press
+- Roost
+- U-turn
+
+Clodsire @ Black Sludge
+Ability: Water Absorb
+EVs: 252 HP / 4 Def / 252 SpD
+Careful Nature
+- Earthquake
+- Toxic
+- Recover
+- Stealth Rock

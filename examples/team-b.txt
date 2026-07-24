@@ -1,0 +1,27 @@
+Kingambit @ Leftovers
+Ability: Supreme Overlord
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+- Kowtow Cleave
+- Sucker Punch
+- Iron Head
+- Swords Dance
+
+Dragapult @ Choice Specs
+Ability: Infiltrator
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Draco Meteor
+- Shadow Ball
+- U-turn
+- Flamethrower
+
+Heatran @ Leftovers
+Ability: Flash Fire
+EVs: 252 HP / 4 Def / 252 SpD
+Calm Nature
+- Magma Storm
+- Earth Power
+- Flash Cannon
+- Stealth Rock
+

@@ -1,0 +1,53 @@
+Basculegion-M @ Choice Scarf
+Ability: Adaptability
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Last Respects
+- Flip Turn
+- Aqua Jet
+- Wave Crash
+
+Pelipper @ Focus Sash
+Ability: Drizzle
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Hurricane
+- Weather Ball
+- Protect
+- Tailwind
+
+Scizor Mega @ Scizorite
+Ability: Technician
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Bullet Punch
+- Close Combat
+- Protect
+- Swords Dance
+
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Throat Chop
+- Flare Blitz
+- Parting Shot
+- Fake Out
+
+Archaludon @ Leftovers
+Ability: Stamina
+EVs: 32 HP / 5 SpA / 15 SpD / 14 Spe
+Modest Nature
+- Electro Shot
+- Dragon Pulse
+- Aura Sphere
+- Protect
+
+Dragonite Mega @ Dragoninite
+Ability: Multiscale
+EVs: 2 HP / 32 SpA / 32 Spe
+Modest Nature
+- Dragon Pulse
+- Flamethrower
+- Protect
+- Tailwind

@@ -1,0 +1,53 @@
+Incineroar @ Chople Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Flare Blitz
+- Helping Hand
+- Fake Out
+- Parting Shot
+
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Protect
+- Kowtow Cleave
+- Iron Head
+- Sucker Punch
+
+Charizard Mega X @ Charizardite X
+Ability: Tough Claws
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Protect
+- Flare Blitz
+- Dragon Claw
+- Dragon Dance
+
+Sinistcha @ Kasib Berry
+Ability: Hospitality
+EVs: 32 HP / 14 Def / 20 SpD
+Bold Nature
+- Matcha Gotcha
+- Rage Powder
+- Protect
+- Trick Room
+
+Floette Mega @ Floettite
+Ability: Flower Veil
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Protect
+- Moonblast
+- Dazzling Gleam
+- Calm Mind
+
+Sneasler @ Focus Sash
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Dire Claw
+- Close Combat
+- Coaching
+- Fake Out

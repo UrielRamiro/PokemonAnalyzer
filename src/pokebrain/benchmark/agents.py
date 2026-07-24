@@ -1,0 +1,636 @@
+from __future__ import annotations
+
+import random
+import time
+from pathlib import Path
+from typing import Any, Protocol
+
+from pokebrain.battle import DecisionStyle, MoveDecisionEngine
+from pokebrain.battle.models import ActionSummary, ActionType, BattleAction
+from pokebrain.belief import BeliefSearchConfig, BeliefSearchDecisionEngine, DecisionContext, LayeredBeliefSearchDecisionEngine, LocalUsageBeliefProvider
+from pokebrain.damage import CachedDamageEngine, DamageRequest, LruDamageCache, SearchDamageCache, ShowdownDamageEngine
+from pokebrain.data.manager import DataManager
+from pokebrain.battle.action_generator import LegalActionGenerator
+from pokebrain.local_agent import (
+    battle_state_from_decision_request,
+    choose_fallback_action,
+    match_legal_action,
+)
+from pokebrain.policy_calibration.store import load_policy_profile
+from pokebrain.search import (
+    ActionPruner,
+    DeterministicBattleTransitionModel,
+    ExpectedValueSearch,
+    HeuristicOpponentPolicyModel,
+    HeuristicStateEvaluator,
+    MaximinSearch,
+    OpponentPolicyConfig,
+    PolicyProfile,
+    SearchConfig,
+    SearchDecisionEngine,
+    StaticActionPruner,
+)
+
+
+DecisionRequest = dict[str, Any]
+AgentAction = dict[str, Any]
+
+
+class BattleAgent(Protocol):
+    @property
+    def name(self) -> str:
+        ...
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        ...
+
+
+class PokeBrainAgent:
+    name = "pokebrain-v1"
+
+    def __init__(self, style: DecisionStyle = DecisionStyle.BALANCED) -> None:
+        self.engine = MoveDecisionEngine()
+        self.style = style
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        legal_actions = request.get("legal_actions", [])
+        if not legal_actions:
+            return {"action": {"type": "team", "slot": 1, "order": "1"}, "reasons": ["No legal action was provided."]}
+
+        request_type = request["player"].get("requestType")
+        if request_type == "team-preview":
+            return {"action": _first_action(legal_actions, "team"), "reasons": ["Keeping preview order for v1."]}
+        if request_type == "forced-switch":
+            return {"action": _first_action(legal_actions, "switch"), "reasons": ["Forced switch request."]}
+
+        state = battle_state_from_decision_request(request)
+        decision = self.engine.decide(state, style=self.style)
+        action = match_legal_action(decision.recommended_action, legal_actions) or choose_fallback_action(legal_actions)
+        score = decision.alternatives[0].average_utility if decision.alternatives else None
+        return {
+            "action": action,
+            "reasons": decision.reasons,
+            "risks": decision.risks,
+            "score": score,
+            "alternatives": [_summary_to_json(summary) for summary in decision.alternatives],
+        }
+
+
+class PreviousVersionAgent(PokeBrainAgent):
+    name = "previous-version"
+
+    def __init__(self) -> None:
+        super().__init__(style=DecisionStyle.CONSERVATIVE)
+
+
+class SearchAgent:
+    name = "search-v1"
+
+    def __init__(self) -> None:
+        data_manager = DataManager()
+        shared_damage_engine = CachedDamageEngine(ShowdownDamageEngine())
+        one_turn = MoveDecisionEngine(data_manager=data_manager, damage_engine=shared_damage_engine)
+        search = MaximinSearch(
+            legal_action_generator=LegalActionGenerator(),
+            transition_model=DeterministicBattleTransitionModel(damage_engine=shared_damage_engine, data_manager=data_manager),
+            state_evaluator=HeuristicStateEvaluator(data_manager=data_manager),
+            action_pruner=ActionPruner(one_turn),
+        )
+        self.engine = SearchDecisionEngine(
+            search_engine=search,
+            fallback_engine=one_turn,
+            config=SearchConfig(maximum_depth=2, maximum_nodes=30, maximum_time_ms=250, maximum_player_actions=3, maximum_opponent_actions=3),
+        )
+        self.damage_engine = shared_damage_engine
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        legal_actions = request.get("legal_actions", [])
+        if not legal_actions:
+            return {"action": {"type": "team", "slot": 1, "order": "1"}, "reasons": ["No legal action was provided."]}
+        request_type = request["player"].get("requestType")
+        if request_type == "team-preview":
+            return {"action": _first_action(legal_actions, "team"), "reasons": ["Keeping preview order for search-v1."]}
+        if request_type == "forced-switch":
+            return {"action": _first_action(legal_actions, "switch"), "reasons": ["Forced switch request."]}
+
+        state = battle_state_from_decision_request(request)
+        decision = self.engine.decide(state)
+        action = match_legal_action(decision.recommended_action, legal_actions) or choose_fallback_action(legal_actions)
+        score = decision.alternatives[0].average_utility if decision.alternatives else None
+        return {
+            "action": action,
+            "reasons": decision.reasons,
+            "risks": decision.risks,
+            "score": score,
+            "alternatives": [_summary_to_json(summary) for summary in decision.alternatives],
+            "metrics": _search_engine_metrics(self.engine, self.damage_engine),
+        }
+
+
+class CachedSearchAgent:
+    name = "search-v1-cache"
+
+    def __init__(self) -> None:
+        data_manager = DataManager()
+        shared_damage_engine = CachedDamageEngine(
+            ShowdownDamageEngine(),
+            l1_cache=SearchDamageCache(),
+            l2_cache=LruDamageCache(maximum_entries=50_000),
+        )
+        one_turn = MoveDecisionEngine(data_manager=data_manager, damage_engine=shared_damage_engine)
+        search = MaximinSearch(
+            legal_action_generator=LegalActionGenerator(),
+            transition_model=DeterministicBattleTransitionModel(
+                damage_engine=shared_damage_engine,
+                data_manager=data_manager,
+                enable_damage_prefetch=True,
+            ),
+            state_evaluator=HeuristicStateEvaluator(data_manager=data_manager),
+            action_pruner=StaticActionPruner(),
+        )
+        self.damage_engine = shared_damage_engine
+        self.engine = SearchDecisionEngine(
+            search_engine=search,
+            fallback_engine=one_turn,
+            config=SearchConfig(maximum_depth=2, maximum_nodes=24, maximum_time_ms=250, maximum_player_actions=3, maximum_opponent_actions=3),
+        )
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        legal_actions = request.get("legal_actions", [])
+        if not legal_actions:
+            return {"action": {"type": "team", "slot": 1, "order": "1"}, "reasons": ["No legal action was provided."]}
+        request_type = request["player"].get("requestType")
+        if request_type == "team-preview":
+            return {"action": _first_action(legal_actions, "team"), "reasons": ["Keeping preview order for search-v1-cache."]}
+        if request_type == "forced-switch":
+            return {"action": _first_action(legal_actions, "switch"), "reasons": ["Forced switch request."]}
+
+        state = battle_state_from_decision_request(request)
+        decision = self.engine.decide(state)
+        action = match_legal_action(decision.recommended_action, legal_actions) or choose_fallback_action(legal_actions)
+        score = decision.alternatives[0].average_utility if decision.alternatives else None
+        metrics = self.damage_engine.metrics
+        return {
+            "action": action,
+            "reasons": (
+                *decision.reasons,
+                f"Damage cache: {metrics.l1_cache_hits} L1 hits, {metrics.l2_cache_hits} L2 hits, {metrics.cache_misses} misses, {metrics.bridge_batches} batches.",
+            ),
+            "risks": decision.risks,
+            "score": score,
+            "alternatives": [_summary_to_json(summary) for summary in decision.alternatives],
+            "metrics": {
+                **_search_engine_metrics(self.engine, self.damage_engine),
+                "damage_requested_calculations": metrics.requested_calculations,
+                "damage_unique_calculations": metrics.unique_calculations,
+                "damage_l1_cache_hits": metrics.l1_cache_hits,
+                "damage_l2_cache_hits": metrics.l2_cache_hits,
+                "damage_cache_misses": metrics.cache_misses,
+                "damage_bridge_batches": metrics.bridge_batches,
+                "damage_bridge_requests": metrics.bridge_requests,
+                "damage_total_bridge_time_ms": metrics.total_bridge_time_ms,
+            },
+        }
+
+
+class BeliefSearchAgent:
+    name = "search-v2-belief"
+
+    def __init__(self) -> None:
+        data_manager = DataManager()
+        shared_damage_engine = CachedDamageEngine(
+            ShowdownDamageEngine(),
+            l1_cache=SearchDamageCache(),
+            l2_cache=LruDamageCache(maximum_entries=50_000),
+        )
+        one_turn = MoveDecisionEngine(data_manager=data_manager, damage_engine=shared_damage_engine)
+        search = MaximinSearch(
+            legal_action_generator=LegalActionGenerator(),
+            transition_model=DeterministicBattleTransitionModel(
+                damage_engine=shared_damage_engine,
+                data_manager=data_manager,
+                enable_damage_prefetch=True,
+            ),
+            state_evaluator=HeuristicStateEvaluator(data_manager=data_manager),
+            action_pruner=ActionPruner(one_turn),
+        )
+        search_engine = SearchDecisionEngine(
+            search_engine=search,
+            fallback_engine=one_turn,
+            config=SearchConfig(maximum_depth=2, maximum_nodes=30, maximum_time_ms=250, maximum_player_actions=3, maximum_opponent_actions=3),
+        )
+        self.damage_engine = shared_damage_engine
+        self.belief_provider = LocalUsageBeliefProvider(data_manager)
+        self.engine = BeliefSearchDecisionEngine(
+            search_engine=search_engine,
+            belief_config=BeliefSearchConfig(maximum_scenarios=4, minimum_probability=0.05),
+        )
+        self.search_engine = search_engine
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        legal_actions = request.get("legal_actions", [])
+        if not legal_actions:
+            return {"action": {"type": "team", "slot": 1, "order": "1"}, "reasons": ["No legal action was provided."]}
+        request_type = request["player"].get("requestType")
+        if request_type == "team-preview":
+            return {"action": _first_action(legal_actions, "team"), "reasons": ["Keeping preview order for search-v2-belief."]}
+        if request_type == "forced-switch":
+            return {"action": _first_action(legal_actions, "switch"), "reasons": ["Forced switch request."]}
+
+        observed_request = dict(request)
+        observed_request["opponent"] = request.get("observed_opponent") or request.get("opponent")
+        state = battle_state_from_decision_request(observed_request)
+        belief_state = self.belief_provider.initial_belief(state)
+        decision = self.engine.decide(DecisionContext(observed_state=state, belief_state=belief_state))
+        action = match_legal_action(decision.recommended_action, legal_actions) or choose_fallback_action(legal_actions)
+        score = decision.alternatives[0].average_utility if decision.alternatives else None
+        metrics = self.damage_engine.metrics
+        return {
+            "action": action,
+            "reasons": decision.reasons,
+            "risks": decision.risks,
+            "score": score,
+            "alternatives": [_summary_to_json(summary) for summary in decision.alternatives],
+            "metrics": {
+                **_search_engine_metrics(self.search_engine, self.damage_engine),
+                "belief_scenarios": self.engine.last_scenario_count,
+                "belief_assumptions": self.engine.last_assumptions,
+                "damage_requested_calculations": metrics.requested_calculations,
+                "damage_unique_calculations": metrics.unique_calculations,
+                "damage_l1_cache_hits": metrics.l1_cache_hits,
+                "damage_l2_cache_hits": metrics.l2_cache_hits,
+                "damage_cache_misses": metrics.cache_misses,
+                "damage_bridge_batches": metrics.bridge_batches,
+                "damage_bridge_requests": metrics.bridge_requests,
+                "damage_total_bridge_time_ms": metrics.total_bridge_time_ms,
+            },
+        }
+
+
+class SharedBeliefSearchAgent(BeliefSearchAgent):
+    name = "search-v2-belief-shared"
+
+    def __init__(self) -> None:
+        data_manager = DataManager()
+        shared_damage_engine = CachedDamageEngine(
+            ShowdownDamageEngine(),
+            l1_cache=SearchDamageCache(),
+            l2_cache=LruDamageCache(maximum_entries=50_000),
+        )
+        one_turn = MoveDecisionEngine(data_manager=data_manager, damage_engine=shared_damage_engine)
+        search_config = SearchConfig(maximum_depth=2, maximum_nodes=24, maximum_time_ms=250, maximum_player_actions=3, maximum_opponent_actions=3)
+        search = MaximinSearch(
+            legal_action_generator=LegalActionGenerator(),
+            transition_model=DeterministicBattleTransitionModel(
+                damage_engine=shared_damage_engine,
+                data_manager=data_manager,
+                enable_damage_prefetch=True,
+                reset_damage_scope_each_search=False,
+            ),
+            state_evaluator=HeuristicStateEvaluator(data_manager=data_manager),
+            action_pruner=StaticActionPruner(),
+        )
+        search_engine = SearchDecisionEngine(
+            search_engine=search,
+            fallback_engine=one_turn,
+            config=search_config,
+        )
+        self.damage_engine = shared_damage_engine
+        self.belief_provider = LocalUsageBeliefProvider(data_manager)
+        self.engine = BeliefSearchDecisionEngine(
+            search_engine=search_engine,
+            belief_config=BeliefSearchConfig(maximum_scenarios=4, minimum_probability=0.05),
+            damage_engine=shared_damage_engine,
+            enable_global_prefetch=True,
+            global_search_config=search_config,
+        )
+        self.search_engine = search_engine
+
+
+class LayeredBeliefSearchAgent(BeliefSearchAgent):
+    name = "search-v2-belief-layered"
+
+    def __init__(self) -> None:
+        data_manager = DataManager()
+        shared_damage_engine = CachedDamageEngine(
+            ShowdownDamageEngine(),
+            l1_cache=SearchDamageCache(),
+            l2_cache=LruDamageCache(maximum_entries=50_000),
+        )
+        one_turn = MoveDecisionEngine(data_manager=data_manager, damage_engine=shared_damage_engine)
+        search_config = SearchConfig(maximum_depth=2, maximum_nodes=24, maximum_time_ms=900, maximum_player_actions=3, maximum_opponent_actions=3)
+        search = MaximinSearch(
+            legal_action_generator=LegalActionGenerator(),
+            transition_model=DeterministicBattleTransitionModel(
+                damage_engine=shared_damage_engine,
+                data_manager=data_manager,
+                enable_damage_prefetch=True,
+                reset_damage_scope_each_search=False,
+            ),
+            state_evaluator=HeuristicStateEvaluator(data_manager=data_manager),
+            action_pruner=StaticActionPruner(),
+        )
+        search_engine = SearchDecisionEngine(
+            search_engine=search,
+            fallback_engine=one_turn,
+            config=search_config,
+        )
+        self.damage_engine = shared_damage_engine
+        self.belief_provider = LocalUsageBeliefProvider(data_manager)
+        self.engine = LayeredBeliefSearchDecisionEngine(
+            search_engine=search_engine,
+            damage_engine=shared_damage_engine,
+            state_evaluator=HeuristicStateEvaluator(data_manager=data_manager),
+            belief_config=BeliefSearchConfig(maximum_scenarios=4, minimum_probability=0.05),
+            search_config=search_config,
+        )
+        self.search_engine = search_engine
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        response = super().decide(request)
+        if "metrics" not in response:
+            return response
+        layered_metrics = self.engine.metrics
+        response["metrics"] = {
+            **response["metrics"],
+            "search_nodes": layered_metrics.nodes_used,
+            "search_depth_reached": layered_metrics.completed_depth,
+            "search_interruption_reason": "completed" if layered_metrics.completed_depth > 0 else "fallback",
+            "search_fallback_used": layered_metrics.completed_depth <= 0,
+            "layered_completed_depth": layered_metrics.completed_depth,
+            "layered_attempted_depth": layered_metrics.attempted_depth,
+            "layered_batches_by_depth": layered_metrics.batches_by_depth,
+            "layered_requests_by_depth": layered_metrics.requests_by_depth,
+            "layered_incomplete_layers": layered_metrics.incomplete_layers,
+            "layered_timeout_before_batch": layered_metrics.timeout_before_batch,
+            "layered_timeout_after_batch": layered_metrics.timeout_after_batch,
+            "layered_reused_previous_pv": layered_metrics.reused_previous_pv,
+            "layered_transposition_hits": layered_metrics.transposition_hits,
+            "layered_planning_time_ms": layered_metrics.planning_time_ms,
+            "layered_bridge_time_ms": layered_metrics.bridge_time_ms,
+            "layered_resolving_time_ms": layered_metrics.resolving_time_ms,
+            "layered_evaluating_time_ms": layered_metrics.evaluating_time_ms,
+            "layered_ordering_time_ms": layered_metrics.ordering_time_ms,
+        }
+        return response
+
+
+class PolicySearchAgent(BeliefSearchAgent):
+    name = "search-v3-policy"
+
+    def __init__(self, profile: PolicyProfile | None = None) -> None:
+        data_manager = DataManager()
+        shared_damage_engine = CachedDamageEngine(
+            ShowdownDamageEngine(),
+            l1_cache=SearchDamageCache(),
+            l2_cache=LruDamageCache(maximum_entries=50_000),
+        )
+        one_turn = MoveDecisionEngine(data_manager=data_manager, damage_engine=shared_damage_engine)
+        search_config = SearchConfig(maximum_depth=2, maximum_nodes=24, maximum_time_ms=1500, maximum_player_actions=3, maximum_opponent_actions=3)
+        policy_config = OpponentPolicyConfig(maximum_actions=3, minimum_probability=0.05, expected_value_weight=0.75, worst_case_weight=0.25, temperature=0.8)
+        policy = HeuristicOpponentPolicyModel(data_manager=data_manager, config=policy_config, profile=profile)
+        search = ExpectedValueSearch(
+            legal_action_generator=LegalActionGenerator(),
+            transition_model=DeterministicBattleTransitionModel(
+                damage_engine=shared_damage_engine,
+                data_manager=data_manager,
+                enable_damage_prefetch=True,
+                reset_damage_scope_each_search=False,
+            ),
+            state_evaluator=HeuristicStateEvaluator(data_manager=data_manager),
+            opponent_policy=policy,
+            action_pruner=StaticActionPruner(),
+            policy_config=policy_config,
+        )
+        search_engine = SearchDecisionEngine(
+            search_engine=search,
+            fallback_engine=one_turn,
+            config=search_config,
+        )
+        self.damage_engine = shared_damage_engine
+        self.belief_provider = LocalUsageBeliefProvider(data_manager)
+        self.engine = LayeredBeliefSearchDecisionEngine(
+            search_engine=search_engine,
+            damage_engine=shared_damage_engine,
+            state_evaluator=HeuristicStateEvaluator(data_manager=data_manager),
+            belief_config=BeliefSearchConfig(maximum_scenarios=4, minimum_probability=0.05),
+            search_config=search_config,
+        )
+        self.search_engine = search_engine
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        response = super().decide(request)
+        if "metrics" not in response:
+            return response
+        layered_metrics = self.engine.metrics
+        policy_metrics = _policy_metrics(self.search_engine)
+        response["metrics"] = {
+            **response["metrics"],
+            **policy_metrics,
+            "search_nodes": layered_metrics.nodes_used,
+            "search_depth_reached": layered_metrics.completed_depth,
+            "search_interruption_reason": "completed" if layered_metrics.completed_depth > 0 else "fallback",
+            "search_fallback_used": layered_metrics.completed_depth <= 0,
+            "layered_completed_depth": layered_metrics.completed_depth,
+            "layered_attempted_depth": layered_metrics.attempted_depth,
+            "layered_batches_by_depth": layered_metrics.batches_by_depth,
+            "layered_requests_by_depth": layered_metrics.requests_by_depth,
+            "layered_incomplete_layers": layered_metrics.incomplete_layers,
+            "layered_timeout_before_batch": layered_metrics.timeout_before_batch,
+            "layered_timeout_after_batch": layered_metrics.timeout_after_batch,
+            "layered_reused_previous_pv": layered_metrics.reused_previous_pv,
+            "layered_transposition_hits": layered_metrics.transposition_hits,
+            "layered_planning_time_ms": layered_metrics.planning_time_ms,
+            "layered_bridge_time_ms": layered_metrics.bridge_time_ms,
+            "layered_resolving_time_ms": layered_metrics.resolving_time_ms,
+            "layered_evaluating_time_ms": layered_metrics.evaluating_time_ms,
+            "layered_ordering_time_ms": layered_metrics.ordering_time_ms,
+        }
+        return response
+
+
+class CalibratedPolicySearchAgent(PolicySearchAgent):
+    name = "search-v4-policy-calibrated"
+
+    def __init__(self, profile_path: Path = Path("data/policy_profiles/gen9ou.json")) -> None:
+        profile = load_policy_profile(profile_path) if profile_path.exists() else None
+        super().__init__(profile=profile)
+
+
+class CalibratedPolicyShadowAgent(PolicySearchAgent):
+    name = "search-v3-policy-calibrated-shadow"
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.shadow_agent = CalibratedPolicySearchAgent()
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        active_response = super().decide(request)
+        if "metrics" not in active_response:
+            return active_response
+        started = time.perf_counter()
+        shadow_response = self.shadow_agent.decide(request)
+        shadow_ms = (time.perf_counter() - started) * 1000
+        active_response["metrics"] = {
+            **active_response["metrics"],
+            "calibrated_shadow_action": shadow_response.get("action"),
+            "calibrated_shadow_score": shadow_response.get("score"),
+            "calibrated_shadow_decision_ms": shadow_ms,
+            "calibrated_shadow_policy_distribution": shadow_response.get("metrics", {}).get("policy_distribution", []),
+            "calibrated_shadow_policy_actions_expanded": shadow_response.get("metrics", {}).get("policy_actions_expanded", 0),
+        }
+        active_response["reasons"] = (
+            *tuple(active_response.get("reasons", ())),
+            "Calibrated policy shadow ran without controlling the active action.",
+        )
+        return active_response
+
+
+class RandomAgent:
+    name = "random"
+
+    def __init__(self, seed: int | None = None) -> None:
+        self._random = random.Random(seed)
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        legal_actions = request.get("legal_actions", [])
+        if not legal_actions:
+            return {"action": {"type": "team", "slot": 1, "order": "1"}, "reasons": ["No legal action was provided."]}
+        return {"action": self._random.choice(legal_actions), "reasons": ["RandomAgent picked a legal action."]}
+
+
+class MaxDamageAgent:
+    name = "max-damage"
+
+    def __init__(self) -> None:
+        self.damage_engine = CachedDamageEngine(ShowdownDamageEngine())
+
+    def decide(self, request: DecisionRequest) -> AgentAction:
+        legal_actions = request.get("legal_actions", [])
+        move_actions = [action for action in legal_actions if action.get("type") == "move"]
+        if not move_actions:
+            return {"action": choose_fallback_action(legal_actions), "reasons": ["No legal damaging action was available."]}
+
+        state = battle_state_from_decision_request(request)
+        scored: list[tuple[float, dict[str, Any]]] = []
+        for action in move_actions:
+            move_id = action.get("moveId")
+            if not move_id:
+                continue
+            try:
+                damage = self.damage_engine.calculate(
+                    DamageRequest(
+                        generation=state.generation,
+                        attacker=state.player.active.set_data,
+                        defender=state.opponent.active.set_data,
+                        move_id=move_id,
+                    )
+                )
+                scored.append(((damage.minimum_percent + damage.maximum_percent) / 2, action))
+            except Exception:
+                scored.append((0.0, action))
+
+        if not scored:
+            return {"action": choose_fallback_action(legal_actions), "reasons": ["Damage scoring failed for every move."]}
+        score, action = max(scored, key=lambda item: item[0])
+        return {"action": action, "reasons": [f"Selected highest expected damage ({score:.1f}%)."], "score": score}
+
+
+def create_battle_agent(name: str, seed: int | None = None) -> BattleAgent:
+    if name in {"pokebrain", "pokebrain-v1"}:
+        return PokeBrainAgent()
+    if name in {"previous-version", "pokebrain-previous"}:
+        return PreviousVersionAgent()
+    if name == "search-v1":
+        return SearchAgent()
+    if name == "search-v1-cache":
+        return CachedSearchAgent()
+    if name == "search-v2-belief":
+        return BeliefSearchAgent()
+    if name == "search-v2-belief-shared":
+        return SharedBeliefSearchAgent()
+    if name == "search-v2-belief-layered":
+        return LayeredBeliefSearchAgent()
+    if name == "search-v3-policy":
+        return PolicySearchAgent()
+    if name == "search-v3-policy-calibrated-shadow":
+        return CalibratedPolicyShadowAgent()
+    if name == "search-v4-policy-calibrated":
+        return CalibratedPolicySearchAgent()
+    if name == "random":
+        return RandomAgent(seed)
+    if name == "max-damage":
+        return MaxDamageAgent()
+    raise ValueError(f"Unknown benchmark agent: {name}")
+
+
+def _search_engine_metrics(engine: SearchDecisionEngine, shared_damage_engine: CachedDamageEngine | None = None) -> dict[str, Any]:
+    result = engine.last_search_result
+    metrics: dict[str, Any] = {
+        "search_nodes": result.explored_nodes if result is not None else 0,
+        "search_depth_reached": result.depth_reached if result is not None else 0,
+        "search_interruption_reason": result.interruption_reason if result is not None else engine.last_fallback_reason or "fallback",
+        "search_fallback_used": engine.last_fallback_used,
+    }
+    if shared_damage_engine is not None:
+        damage = shared_damage_engine.metrics
+        metrics.update(
+            {
+                "damage_requested_calculations": damage.requested_calculations,
+                "damage_unique_calculations": damage.unique_calculations,
+                "damage_l1_cache_hits": damage.l1_cache_hits,
+                "damage_same_scenario_hits": damage.same_scenario_hits,
+                "damage_cross_scenario_hits": damage.cross_scenario_hits,
+                "damage_l2_cache_hits": damage.l2_cache_hits,
+                "damage_cache_misses": damage.cache_misses,
+                "damage_bridge_batches": damage.bridge_batches,
+                "damage_bridge_requests": damage.bridge_requests,
+                "damage_total_bridge_time_ms": damage.total_bridge_time_ms,
+            }
+        )
+    return metrics
+
+
+def _policy_metrics(engine: SearchDecisionEngine) -> dict[str, Any]:
+    search = getattr(engine, "search_engine", None)
+    distribution = getattr(search, "last_policy_distribution", ())
+    return {
+        "policy_actions_expanded": getattr(search, "last_policy_actions_expanded", 0),
+        "policy_distribution": [
+            {
+                "action": _battle_action_to_json(item.action),
+                "probability": item.probability,
+                "policy_score": item.policy_score,
+                "reasons": [
+                    {
+                        "code": reason.code,
+                        "contribution": reason.contribution,
+                        "description": reason.description,
+                    }
+                    for reason in item.reasons
+                ],
+            }
+            for item in distribution
+        ],
+    }
+
+
+def _first_action(legal_actions: list[dict[str, Any]], action_type: str) -> dict[str, Any]:
+    return next((action for action in legal_actions if action.get("type") == action_type), legal_actions[0])
+
+
+def _summary_to_json(summary: ActionSummary) -> dict[str, Any]:
+    return {
+        "action": _battle_action_to_json(summary.action),
+        "average_utility": summary.average_utility,
+        "worst_case_utility": summary.worst_case_utility,
+        "best_case_utility": summary.best_case_utility,
+        "reasons": summary.reasons,
+        "risks": summary.risks,
+    }
+
+
+def _battle_action_to_json(action: BattleAction) -> dict[str, Any]:
+    if action.action_type is ActionType.MOVE:
+        return {"type": "move", "moveId": action.move_id}
+    return {"type": "switch", "switchSpeciesId": action.switch_target_id}

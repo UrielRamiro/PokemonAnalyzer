@@ -1,0 +1,46 @@
+campaign_id: champions-vgc-regmb-doubles-search-pilot-1
+format_id: gen9championsvgc2026regmb
+simulator_version: pokemon-showdown-champions-regmb
+engine_version: pokebrain-local-search-protect-v3
+target_battles: 2000
+master_seed: 20260801
+team_pool_id: champions-vgc-pilot-1
+team_pool_path: teams/champions-vgc-pilot-1
+max_turns: 80
+timeout_seconds: 240
+artifact_root: battles
+database_path: data/database/battle_campaigns.db
+agent_matchups:
+  - matchup_id: search-v3-vs-random
+    agent_1_id: search-v3-policy
+    agent_2_id: random
+    weight: 2
+  - matchup_id: random-vs-search-v3
+    agent_1_id: random
+    agent_2_id: search-v3-policy
+    weight: 2
+  - matchup_id: search-v3-vs-bridge
+    agent_1_id: search-v3-policy
+    agent_2_id: pokebrain-v1
+    weight: 2
+  - matchup_id: bridge-vs-search-v3
+    agent_1_id: pokebrain-v1
+    agent_2_id: search-v3-policy
+    weight: 2
+  - matchup_id: search-v3-vs-search-v3
+    agent_1_id: search-v3-policy
+    agent_2_id: search-v3-policy
+    weight: 1
+  - matchup_id: belief-layered-vs-search-v3
+    agent_1_id: search-v2-belief-layered
+    agent_2_id: search-v3-policy
+    weight: 1
+coverage_targets:
+  - bucket: switch
+    minimum_examples: 250
+  - bucket: forced_switch
+    minimum_examples: 100
+  - bucket: late_turn
+    minimum_examples: 100
+  - bucket: choice_lock
+    minimum_examples: 100

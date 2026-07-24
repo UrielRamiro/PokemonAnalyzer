@@ -1,0 +1,73 @@
+{
+  "case_id": "preserve-win-condition",
+  "description": "Low HP Dragapult should switch instead of staying into Sucker Punch.",
+  "state": {
+    "generation": 9,
+    "format_id": "gen9ou",
+    "turn": 1,
+    "player": {
+      "active": {
+        "species": "Dragapult",
+        "current_hp": 40
+      },
+      "team": [
+        {
+          "species": "Dragapult",
+          "item": "Choice Specs",
+          "ability": "Infiltrator",
+          "nature": "Timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          },
+          "moves": [
+            "Shadow Ball"
+          ]
+        },
+        {
+          "species": "Great Tusk",
+          "item": "Leftovers",
+          "ability": "Protosynthesis",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          },
+          "moves": [
+            "Headlong Rush"
+          ]
+        }
+      ]
+    },
+    "opponent": {
+      "active": {
+        "species": "Kingambit",
+        "current_hp": 300
+      },
+      "team": [
+        {
+          "species": "Kingambit",
+          "item": "Black Glasses",
+          "ability": "Supreme Overlord",
+          "evs": {
+            "atk": 252
+          },
+          "moves": [
+            "Sucker Punch"
+          ]
+        }
+      ]
+    }
+  },
+  "acceptable_actions": [
+    {
+      "type": "switch",
+      "switch_target_id": "greattusk"
+    }
+  ],
+  "forbidden_actions": [
+    {
+      "type": "move",
+      "move_id": "shadowball"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+Sylveon @ Fairy Feather
+Ability: Pixilate
+EVs: 9 HP / 22 Def / 30 SpA / 5 Spe
+Modest Nature
+- Protect
+- Moonblast
+- Hyper Voice
+- Quick Attack
+
+Orthworm @ Sitrus Berry
+Ability: Earth Eater
+EVs: 31 HP / 25 SpD / 10 Spe
+Careful Nature
+- Protect
+- Body Press
+- Heavy Slam
+- Shed Tail
+
+Sableye @ Roseli Berry
+Ability: Prankster
+EVs: 32 HP / 9 Def / 25 SpD
+Calm Nature
+- Fake Out
+- Disable
+- Rain Dance
+- Encore
+
+Maushold @ Focus Sash
+Ability: Friend Guard
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Follow Me
+- Rain Dance
+- Protect
+- Feint
+
+Vivillon @ Choice Scarf
+Ability: Compound Eyes
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Rage Powder
+- Pollen Puff
+- Hurricane
+- Sleep Powder
+
+Blastoise Mega @ Blastoisinite
+Ability: Mega Launcher
+EVs: 2 HP / 32 SpA / 32 Spe
+Modest Nature
+- Water Spout
+- Dark Pulse
+- Shell Smash
+- Protect

@@ -1,0 +1,53 @@
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Kowtow Cleave
+- Sucker Punch
+- Swords Dance
+- Protect
+
+Dragonite @ Dragon Fang
+Ability: Multiscale
+EVs: 2 HP / 32 Atk / 32 Spe
+Adamant Nature
+- Dragon Claw
+- Extreme Speed
+- Low Kick
+- Protect
+
+Sneasler @ Focus Sash
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Close Combat
+- Dire Claw
+- Fake Out
+- Protect
+
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Flare Blitz
+- Parting Shot
+- Fake Out
+- Protect
+
+Ninetales-Alola @ Never-Melt Ice
+Ability: Snow Warning
+EVs: 13 HP / 21 SpA / 32 Spe
+Timid Nature
+- Blizzard
+- Encore
+- Disable
+- Protect
+
+Gengar Mega @ Gengarite
+Ability: Shadow Tag
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Shadow Ball
+- Sludge Bomb
+- Perish Song
+- Protect

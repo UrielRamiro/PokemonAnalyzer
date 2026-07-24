@@ -1,0 +1,53 @@
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Flare Blitz
+- Parting Shot
+- Fake Out
+- Throat Chop
+
+Palafin @ Leftovers
+Ability: Zero to Hero
+EVs: 32 HP / 30 Atk / 4 Spe
+Adamant Nature
+- Protect
+- Jet Punch
+- Wave Crash
+- Bulk Up
+
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Protect
+- Sucker Punch
+- Kowtow Cleave
+- Swords Dance
+
+Floette Mega @ Floettite
+Ability: Flower Veil
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Protect
+- Draining Kiss
+- Dazzling Gleam
+- Calm Mind
+
+Sneasler @ Focus Sash
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Dire Claw
+- Close Combat
+- Fake Out
+
+Aerodactyl Mega @ Aerodactylite
+Ability: Tough Claws
+EVs: 22 HP / 12 Atk / 32 Spe
+Jolly Nature
+- Protect
+- Rock Slide
+- Ice Fang
+- Dual Wingbeat

@@ -1,0 +1,16 @@
+{
+  "species": "Great Tusk",
+  "level": 100,
+  "ability": "Protosynthesis",
+  "item": "Choice Band",
+  "nature": "Adamant",
+  "evs": {
+    "atk": 252
+  },
+  "moves": [
+    "Headlong Rush",
+    "Rapid Spin",
+    "Knock Off",
+    "Ice Spinner"
+  ]
+}

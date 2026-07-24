@@ -1,0 +1,53 @@
+Ninetales-Alola @ Never-Melt Ice
+Ability: Snow Warning
+EVs: 13 HP / 21 SpA / 32 Spe
+Timid Nature
+- Blizzard
+- Encore
+- Disable
+- Protect
+
+Sneasler @ White Herb
+Ability: Unburden
+EVs: 2 HP / 32 Atk / 32 Spe
+Jolly Nature
+- Fake Out
+- Close Combat
+- Gunk Shot
+- Protect
+
+Kingambit @ Black Glasses
+Ability: Defiant
+EVs: 32 HP / 32 Atk / 2 SpD
+Adamant Nature
+- Sucker Punch
+- Kowtow Cleave
+- Swords Dance
+- Protect
+
+Incineroar @ Sitrus Berry
+Ability: Intimidate
+EVs: 32 HP / 14 Def / 20 SpD
+Careful Nature
+- Fake Out
+- Flare Blitz
+- Parting Shot
+- Protect
+
+Gengar Mega @ Gengarite
+Ability: Shadow Tag
+EVs: 2 HP / 32 SpA / 32 Spe
+Timid Nature
+- Shadow Ball
+- Sludge Bomb
+- Perish Song
+- Protect
+
+Palafin @ Mystic Water
+Ability: Zero to Hero
+EVs: 32 HP / 30 Atk / 4 Spe
+Adamant Nature
+- Jet Punch
+- Wave Crash
+- Flip Turn
+- Protect
