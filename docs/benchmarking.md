@@ -3,6 +3,9 @@
 The benchmark suite runs many local Pokemon Showdown battles and stores the
 results in SQLite.
 
+For the current Champions VGC Reg M-B iteration loop, use
+`docs/vgc_iteration_workflow.md`.
+
 ## Run
 
 ```powershell

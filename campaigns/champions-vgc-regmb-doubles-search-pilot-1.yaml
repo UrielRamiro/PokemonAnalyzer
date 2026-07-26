@@ -2,7 +2,7 @@ campaign_id: champions-vgc-regmb-doubles-search-pilot-1
 format_id: gen9championsvgc2026regmb
 simulator_version: pokemon-showdown-champions-regmb
 engine_version: pokebrain-local-search-protect-v3
-target_battles: 2000
+target_battles: 10000
 master_seed: 20260801
 team_pool_id: champions-vgc-pilot-1
 team_pool_path: teams/champions-vgc-pilot-1

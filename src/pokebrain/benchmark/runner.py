@@ -25,6 +25,12 @@ class BenchmarkRunner:
 
     def run(self, config: BenchmarkConfig) -> BenchmarkReport:
         run_id = f"benchmark-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
+        print(f"Benchmark iniciado: {run_id}", flush=True)
+        print(
+            f"{config.agent_a_name} vs {config.agent_b_name} | "
+            f"{config.battle_count} partidas | workers={config.parallel_workers}",
+            flush=True,
+        )
         self._result_repository.create_run(
             run_id=run_id,
             created_at=datetime.now(timezone.utc).isoformat(),
@@ -67,6 +73,7 @@ class BenchmarkRunner:
                 result = self._run_task(config, task)
                 self._result_repository.save_battle(run_id, result)
                 results.append(result)
+                _print_progress(results, config.battle_count)
         else:
             with ThreadPoolExecutor(max_workers=config.parallel_workers) as executor:
                 futures = [executor.submit(self._run_task, config, task) for task in tasks]
@@ -74,6 +81,7 @@ class BenchmarkRunner:
                     result = future.result()
                     self._result_repository.save_battle(run_id, result)
                     results.append(result)
+                    _print_progress(results, config.battle_count)
 
         return build_benchmark_report(run_id, results, primary_agent=config.agent_a_name)
 
@@ -114,3 +122,28 @@ class _BattleTask:
     team_b: SampledTeam
     agent_a: str
     agent_b: str
+
+
+def _print_progress(results: list[BattleBenchmarkResult], total: int) -> None:
+    completed = len(results)
+    latest = results[-1]
+    important_failure = latest.termination_reason in {
+        "agent_crash",
+        "node_crash",
+        "protocol_error",
+        "timeout",
+    }
+    if completed == total or completed == 1 or completed % 25 == 0 or important_failure:
+        wins = sum(1 for result in results if result.winner == "PokeBrain")
+        losses = sum(1 for result in results if result.winner == "Opponent")
+        failures = sum(
+            1
+            for result in results
+            if result.termination_reason in {"agent_crash", "node_crash", "protocol_error", "timeout"}
+        )
+        print(
+            f"Progresso: {completed}/{total} | "
+            f"PokeBrain={wins} Opponent={losses} falhas={failures} | "
+            f"ultima={latest.termination_reason}",
+            flush=True,
+        )
