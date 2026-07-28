@@ -43,7 +43,7 @@ class LocalBattleAgent:
     def decide(self, request: dict[str, Any]) -> dict[str, Any]:
         started_at = time.perf_counter()
         legal_actions = request.get("legal_actions", [])
-        if is_doubles_compound_request(legal_actions):
+        if is_doubles_compound_request(legal_actions) and not agent_supports_doubles_compound(self.agent_name):
             action, score, reasons = choose_doubles_compound_action(legal_actions, request)
             return self._decision(
                 action,
@@ -183,6 +183,14 @@ def choose_fallback_action(legal_actions: list[dict[str, Any]]) -> dict[str, Any
 
 def is_doubles_compound_request(legal_actions: list[dict[str, Any]]) -> bool:
     return bool(legal_actions) and all(action.get("type") == "compound" for action in legal_actions)
+
+
+def agent_supports_doubles_compound(agent_name: str) -> bool:
+    return agent_name in {
+        "search-v3-policy",
+        "search-v3-policy-calibrated-shadow",
+        "search-v4-policy-calibrated",
+    }
 
 
 def choose_doubles_compound_action(legal_actions: list[dict[str, Any]], request: dict[str, Any]) -> tuple[dict[str, Any], float, tuple[str, ...]]:

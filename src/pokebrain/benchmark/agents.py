@@ -13,6 +13,8 @@ from pokebrain.data.manager import DataManager
 from pokebrain.battle.action_generator import LegalActionGenerator
 from pokebrain.local_agent import (
     battle_state_from_decision_request,
+    doubles_compound_score,
+    is_doubles_compound_request,
     choose_fallback_action,
     match_legal_action,
 )
@@ -419,6 +421,10 @@ class PolicySearchAgent(BeliefSearchAgent):
         self.search_engine = search_engine
 
     def decide(self, request: DecisionRequest) -> AgentAction:
+        legal_actions = request.get("legal_actions", [])
+        if is_doubles_compound_request(legal_actions):
+            return self._decide_doubles_compound(request, legal_actions)
+
         response = super().decide(request)
         if "metrics" not in response:
             return response
@@ -447,6 +453,70 @@ class PolicySearchAgent(BeliefSearchAgent):
             "layered_ordering_time_ms": layered_metrics.ordering_time_ms,
         }
         return response
+
+    def _decide_doubles_compound(
+        self,
+        request: DecisionRequest,
+        legal_actions: list[dict[str, Any]],
+    ) -> AgentAction:
+        opponent_pressure = _opponent_compound_pressure(request)
+        scored: list[tuple[float, dict[str, Any], tuple[str, ...]]] = []
+        for action in legal_actions:
+            base_score, base_reasons = doubles_compound_score(action, request)
+            tactical_score, tactical_reasons = _vgc_compound_tactical_score(action, request)
+            score = base_score + tactical_score - opponent_pressure * _passivity_penalty(action)
+            scored.append(
+                (
+                    score,
+                    action,
+                    (
+                        *base_reasons,
+                        *tactical_reasons,
+                    ),
+                )
+            )
+
+        if not scored:
+            return {
+                "action": choose_fallback_action(legal_actions),
+                "reasons": ["No compound action could be scored."],
+                "metrics": {
+                    "search_fallback_used": True,
+                    "search_interruption_reason": "fallback",
+                },
+            }
+
+        scored.sort(key=lambda item: item[0], reverse=True)
+        best_score, best_action, best_reasons = scored[0]
+        return {
+            "action": best_action,
+            "reasons": (
+                "VGC compound search ranked legal doubles actions.",
+                *best_reasons,
+            ),
+            "score": best_score,
+            "alternatives": [
+                {
+                    "action": action,
+                    "average_utility": score,
+                    "worst_case_utility": score - opponent_pressure,
+                    "best_case_utility": score,
+                    "reasons": reasons,
+                    "risks": (),
+                }
+                for score, action, reasons in scored[:5]
+            ],
+            "metrics": {
+                "search_fallback_used": False,
+                "search_interruption_reason": "vgc_compound_search",
+                "search_nodes": len(scored),
+                "search_depth_reached": 1,
+                "layered_completed_depth": 1,
+                "layered_attempted_depth": 1,
+                "policy_actions_expanded": len(scored),
+                "opponent_compound_pressure": opponent_pressure,
+            },
+        }
 
 
 class CalibratedPolicySearchAgent(PolicySearchAgent):
@@ -534,6 +604,151 @@ class MaxDamageAgent:
             return {"action": choose_fallback_action(legal_actions), "reasons": ["Damage scoring failed for every move."]}
         score, action = max(scored, key=lambda item: item[0])
         return {"action": action, "reasons": [f"Selected highest expected damage ({score:.1f}%)."], "score": score}
+
+
+def _vgc_compound_tactical_score(action: dict[str, Any], request: DecisionRequest) -> tuple[float, tuple[str, ...]]:
+    choices = action.get("choices", ())
+    score = 0.0
+    reasons: list[str] = []
+    move_ids = {str(choice.get("moveId", "")).lower() for choice in choices if choice.get("type") == "move"}
+    switch_count = sum(1 for choice in choices if choice.get("type") == "switch")
+    protect_count = sum(1 for move_id in move_ids if move_id in _PROTECT_MOVES)
+
+    if switch_count:
+        score += 8.0 * switch_count
+        reasons.append("Considered switching as VGC positioning.")
+    if switch_count >= 2:
+        score -= 18.0
+        reasons.append("Penalized fully defensive double switch.")
+
+    if protect_count == 1 and _opponent_has_priority_pressure(request):
+        score += 14.0
+        reasons.append("Protected one slot against priority/Fake Out pressure.")
+    elif protect_count >= 2:
+        score -= 18.0
+        reasons.append("Penalized passive double Protect in compound search.")
+
+    if _has_spread_damage(move_ids):
+        score += 12.0
+        reasons.append("Valued spread damage.")
+    if move_ids & _SPEED_CONTROL_MOVES:
+        score += 12.0
+        reasons.append("Valued speed control.")
+    if move_ids & _REDIRECTION_MOVES:
+        score += 9.0
+        reasons.append("Valued redirection support.")
+    if move_ids & _DISRUPTION_MOVES:
+        score += 8.0
+        reasons.append("Valued disruption.")
+    if move_ids & _SETUP_MOVES and _opponent_compound_pressure(request) >= 35.0:
+        score -= 16.0
+        reasons.append("Penalized setup under high immediate pressure.")
+
+    low_hp_attackers = _low_hp_active_slots(request)
+    for choice in choices:
+        if choice.get("type") != "move":
+            continue
+        active_slot = int(choice.get("activeSlot") or 1)
+        move_id = str(choice.get("moveId", "")).lower()
+        if active_slot in low_hp_attackers and move_id not in _PROTECT_MOVES:
+            score -= 8.0
+            reasons.append("Penalized exposing a low-HP active slot.")
+
+    return score, tuple(dict.fromkeys(reasons))
+
+
+def _opponent_compound_pressure(request: DecisionRequest) -> float:
+    opponent = request.get("opponent") or request.get("observed_opponent") or {}
+    pressure = 0.0
+    for pokemon in opponent.get("team", ()):
+        if pokemon.get("fainted"):
+            continue
+        moves = {str(move).lower() for move in pokemon.get("moves", ())}
+        if moves & {"fakeout", "suckerpunch", "aquajet", "accelerock", "quickattack", "shadowsneak"}:
+            pressure += 16.0
+        if moves & _SPEED_CONTROL_MOVES:
+            pressure += 12.0
+        if moves & _REDIRECTION_MOVES:
+            pressure += 8.0
+        if moves & _SPREAD_DAMAGE_MOVES:
+            pressure += 10.0
+        if pokemon.get("active"):
+            pressure += 6.0
+    return min(60.0, pressure)
+
+
+def _passivity_penalty(action: dict[str, Any]) -> float:
+    choices = action.get("choices", ())
+    passive = 0
+    for choice in choices:
+        if choice.get("type") == "switch":
+            passive += 1
+        elif choice.get("type") == "move" and str(choice.get("moveId", "")).lower() in _PASSIVE_MOVES:
+            passive += 1
+    return 0.18 * passive
+
+
+def _opponent_has_priority_pressure(request: DecisionRequest) -> bool:
+    opponent = request.get("opponent") or request.get("observed_opponent") or {}
+    priority = {"fakeout", "suckerpunch", "aquajet", "accelerock", "quickattack", "shadowsneak"}
+    return any(
+        priority & {str(move).lower() for move in pokemon.get("moves", ())}
+        for pokemon in opponent.get("team", ())
+        if not pokemon.get("fainted")
+    )
+
+
+def _low_hp_active_slots(request: DecisionRequest) -> set[int]:
+    slots: set[int] = set()
+    active_seen = 0
+    for pokemon in request.get("player", {}).get("team", ()):
+        if not pokemon.get("active"):
+            continue
+        active_seen += 1
+        if _condition_fraction(str(pokemon.get("condition", "1/1"))) <= 0.35:
+            slots.add(active_seen)
+    return slots
+
+
+def _condition_fraction(condition: str) -> float:
+    if condition.endswith(" fnt"):
+        return 0.0
+    hp_text = condition.split()[0]
+    if "/" not in hp_text:
+        return 1.0
+    current, maximum = hp_text.split("/", 1)
+    try:
+        return max(0.0, min(1.0, float(current) / max(1.0, float(maximum))))
+    except ValueError:
+        return 1.0
+
+
+def _has_spread_damage(move_ids: set[str]) -> bool:
+    return bool(move_ids & _SPREAD_DAMAGE_MOVES)
+
+
+_PROTECT_MOVES = {"protect", "detect", "spikyshield", "kingsshield", "banefulbunker"}
+_PASSIVE_MOVES = _PROTECT_MOVES | {"calmmind", "swordsdance", "nastyplot", "dragondance", "lifedew"}
+_SPEED_CONTROL_MOVES = {"tailwind", "trickroom", "icywind", "electroweb", "thunderwave", "rocktomb"}
+_REDIRECTION_MOVES = {"followme", "ragepowder"}
+_DISRUPTION_MOVES = {"fakeout", "yawn", "spore", "sleeppowder", "willowisp", "taunt", "partingshot"}
+_SETUP_MOVES = {"swordsdance", "nastyplot", "calmmind", "dragondance"}
+_SPREAD_DAMAGE_MOVES = {
+    "heatwave",
+    "rockslide",
+    "earthquake",
+    "hypervoice",
+    "dazzlinggleam",
+    "blizzard",
+    "muddywater",
+    "surf",
+    "discharge",
+    "eruption",
+    "waterdamage",
+    "snarl",
+    "icywind",
+    "electroweb",
+}
 
 
 def create_battle_agent(name: str, seed: int | None = None) -> BattleAgent:

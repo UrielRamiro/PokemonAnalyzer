@@ -496,7 +496,8 @@ function serializeChoice(playerId, action) {
 
 function serializeChoicePart(action) {
   if (action.type === "move") {
-    const target = action.target === null || action.target === undefined ? "" : ` ${action.target}`;
+    const cannotTarget = action.moveId === "struggle";
+    const target = cannotTarget || action.target === null || action.target === undefined ? "" : ` ${action.target}`;
     const tera = action.terastallize ? " terastallize" : "";
     return `move ${action.slot}${target}${tera}`;
   }
