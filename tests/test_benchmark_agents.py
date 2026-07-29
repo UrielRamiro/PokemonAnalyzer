@@ -58,7 +58,60 @@ class BenchmarkAgentsTest(unittest.TestCase):
         self.assertEqual(response["metrics"]["search_interruption_reason"], "vgc_team_preview_search")
         self.assertFalse(response["metrics"]["search_fallback_used"])
 
-    def _pokemon(self, slot: int, species: str, speed: int, moves: tuple[str, ...]):
+    def test_policy_search_contests_sun_in_team_preview(self) -> None:
+        agent = create_battle_agent("search-v3-policy")
+        response = agent.decide(
+            {
+                "player": {
+                    "requestType": "team-preview",
+                    "team": [
+                        self._pokemon(1, "pelipper", 117, ("tailwind", "wideguard", "protect"), ability="drizzle"),
+                        self._pokemon(2, "palafin", 136, ("wavecrash", "aquajet", "protect")),
+                        self._pokemon(3, "hydreigon", 98, ("darkpulse", "protect")),
+                        self._pokemon(4, "chandelure", 100, ("heatwave", "protect")),
+                        self._pokemon(5, "incineroar", 80, ("fakeout", "partingshot")),
+                        self._pokemon(6, "kingambit", 70, ("suckerpunch", "kowtowcleave", "protect")),
+                    ],
+                },
+                "opponent": {
+                    "team": [
+                        self._pokemon(1, "charizardmegay", 146, ("heatwave", "solarbeam"), ability="drought"),
+                        self._pokemon(2, "venusaur", 145, ("sleeppowder", "weatherball"), ability="chlorophyll"),
+                    ]
+                },
+                "legal_actions": [
+                    {"type": "team", "slot": 1, "order": "3456"},
+                    {"type": "team", "slot": 2, "order": "1256"},
+                ],
+            }
+        )
+
+        self.assertEqual(response["action"]["order"], "1256")
+
+    def test_policy_search_avoids_unsupported_fragile_lead(self) -> None:
+        agent = create_battle_agent("search-v3-policy")
+        response = agent.decide(
+            {
+                "player": {
+                    "requestType": "team-preview",
+                    "team": [
+                        self._pokemon(1, "vivillon", 109, ("sleeppowder", "protect")),
+                        self._pokemon(2, "chandelure", 100, ("heatwave", "protect")),
+                        self._pokemon(3, "incineroar", 80, ("fakeout", "partingshot")),
+                        self._pokemon(4, "whimsicott", 184, ("tailwind", "moonblast")),
+                    ],
+                },
+                "opponent": {"team": [self._pokemon(1, "weavile", 194, ("fakeout", "iciclecrash"))]},
+                "legal_actions": [
+                    {"type": "team", "slot": 1, "order": "1234"},
+                    {"type": "team", "slot": 2, "order": "3412"},
+                ],
+            }
+        )
+
+        self.assertEqual(response["action"]["order"], "3412")
+
+    def _pokemon(self, slot: int, species: str, speed: int, moves: tuple[str, ...], ability: str | None = None):
         return {
             "slot": slot,
             "speciesId": species,
@@ -66,6 +119,7 @@ class BenchmarkAgentsTest(unittest.TestCase):
             "active": False,
             "stats": {"spe": speed},
             "moves": list(moves),
+            "abilityId": ability,
         }
 
 

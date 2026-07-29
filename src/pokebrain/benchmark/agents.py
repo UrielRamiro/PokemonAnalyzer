@@ -737,6 +737,10 @@ def _team_preview_score(order: str, request: DecisionRequest) -> tuple[float, tu
     score += synergy_score
     reasons.extend(synergy_reasons)
 
+    stability_score, stability_reasons = _lead_stability_score(leads)
+    score += stability_score
+    reasons.extend(stability_reasons)
+
     opponent_score, opponent_reasons = _preview_matchup_score(leads, backline, request)
     score += opponent_score
     reasons.extend(opponent_reasons)
@@ -787,6 +791,9 @@ def _lead_score(pokemon: dict[str, Any]) -> tuple[float, tuple[str, ...]]:
     if moves <= _PASSIVE_MOVES:
         score -= 20.0
         reasons.append(f"{species} has an overly passive lead profile.")
+    if species in _FRAGILE_LEAD_SPECIES and not (moves & (_SPEED_CONTROL_MOVES | _DISRUPTION_MOVES | _REDIRECTION_MOVES)):
+        score -= 10.0
+        reasons.append(f"{species} needs support before leading.")
     return score, tuple(reasons)
 
 
@@ -841,6 +848,35 @@ def _lead_synergy_score(leads: list[dict[str, Any]], backline: list[dict[str, An
     return score, tuple(reasons)
 
 
+def _lead_stability_score(leads: list[dict[str, Any]]) -> tuple[float, tuple[str, ...]]:
+    if len(leads) < 2:
+        return 0.0, ()
+    score = 0.0
+    reasons: list[str] = []
+    lead_moves = [_pokemon_moves(pokemon) for pokemon in leads]
+    lead_species = {str(pokemon.get("speciesId") or "").lower() for pokemon in leads}
+    has_fakeout = any("fakeout" in moves for moves in lead_moves)
+    has_speed = any(moves & _SPEED_CONTROL_MOVES for moves in lead_moves)
+    has_protect = any(moves & _PROTECT_MOVES for moves in lead_moves)
+    has_spread = any(moves & _SPREAD_DAMAGE_MOVES for moves in lead_moves)
+    has_disruption = any(moves & _DISRUPTION_MOVES for moves in lead_moves)
+
+    unsupported_fragile = lead_species & _FRAGILE_LEAD_SPECIES
+    if unsupported_fragile and not (has_fakeout or has_speed or has_disruption):
+        score -= 24.0
+        reasons.append("Penalized fragile lead pair without tempo support.")
+    if lead_species & _BENCHMARK_BAD_LEADS and not (has_fakeout and (has_speed or has_protect)):
+        score -= 18.0
+        reasons.append("Penalized historically weak lead without support.")
+    if has_fakeout and has_spread:
+        score += 10.0
+        reasons.append("Lead can buy a spread-damage turn.")
+    if has_speed and has_protect:
+        score += 8.0
+        reasons.append("Lead has speed control plus defensive flexibility.")
+    return score, tuple(reasons)
+
+
 def _preview_matchup_score(
     leads: list[dict[str, Any]],
     backline: list[dict[str, Any]],
@@ -849,8 +885,13 @@ def _preview_matchup_score(
     opponent = request.get("opponent") or request.get("observed_opponent") or {}
     opponent_team = opponent.get("team", ())
     opponent_moves = [_pokemon_moves(pokemon) for pokemon in opponent_team]
+    opponent_species = {str(pokemon.get("speciesId") or "").lower() for pokemon in opponent_team}
+    opponent_abilities = {str(pokemon.get("abilityId") or "").lower() for pokemon in opponent_team}
     selected = leads + backline
     selected_moves = [_pokemon_moves(pokemon) for pokemon in selected]
+    lead_moves = [_pokemon_moves(pokemon) for pokemon in leads]
+    selected_species = {str(pokemon.get("speciesId") or "").lower() for pokemon in selected}
+    selected_abilities = {str(pokemon.get("abilityId") or "").lower() for pokemon in selected}
     score = 0.0
     reasons: list[str] = []
 
@@ -869,9 +910,44 @@ def _preview_matchup_score(
             score -= 10.0
             reasons.append("Penalized selection without speed-control counterplay.")
     if any(str(pokemon.get("abilityId") or "").lower() in _WEATHER_ABILITIES for pokemon in opponent_team):
-        if any(str(pokemon.get("abilityId") or "").lower() in _WEATHER_ABILITIES for pokemon in selected):
+        if selected_abilities & _WEATHER_ABILITIES:
             score += 8.0
             reasons.append("Selection contests opposing weather.")
+    if _opponent_is_sun(opponent_species, opponent_abilities):
+        if selected_abilities & (_WEATHER_ABILITIES - {"drought"}):
+            score += 18.0
+            reasons.append("Selection brings non-sun weather control into Sun.")
+        if any(moves & _SPEED_CONTROL_MOVES for moves in selected_moves):
+            score += 12.0
+            reasons.append("Selection contests Sun speed pressure.")
+        if any("rockslide" in moves for moves in selected_moves):
+            score += 10.0
+            reasons.append("Selection pressures Sun with Rock Slide.")
+        if not any(moves & _SPEED_CONTROL_MOVES for moves in selected_moves) and not selected_abilities & (_WEATHER_ABILITIES - {"drought"}):
+            score -= 18.0
+            reasons.append("Penalized selection lacking Sun counterplay.")
+    if opponent_species & _FAST_PHYSICAL_THREATS:
+        if any("fakeout" in moves for moves in lead_moves):
+            score += 12.0
+            reasons.append("Lead can slow fast physical pressure with Fake Out.")
+        if any(moves & _PRIORITY_MOVES for moves in selected_moves):
+            score += 8.0
+            reasons.append("Selection has priority into fast physical pressure.")
+        if not any("fakeout" in moves for moves in lead_moves) and not any(moves & _PROTECT_MOVES for moves in lead_moves):
+            score -= 14.0
+            reasons.append("Penalized lead lacking protection into fast physical pressure.")
+    if opponent_species & _SETUP_OR_BULKY_THREATS:
+        if any(moves & {"taunt", "yawn", "willowisp", "partingshot"} for moves in selected_moves):
+            score += 12.0
+            reasons.append("Selection brings disruption into setup/bulky threats.")
+        if any(moves & _SPREAD_DAMAGE_MOVES for moves in selected_moves):
+            score += 6.0
+            reasons.append("Selection keeps pressure against bulky threats.")
+    if selected_species & _BENCHMARK_BAD_LEADS and any(species in selected_species for species in _BENCHMARK_BAD_LEADS):
+        bad_leads_opening = {str(pokemon.get("speciesId") or "").lower() for pokemon in leads} & _BENCHMARK_BAD_LEADS
+        if bad_leads_opening and not any("fakeout" in moves or moves & _SPEED_CONTROL_MOVES for moves in lead_moves):
+            score -= 10.0
+            reasons.append("Penalized exposed benchmark-weak lead.")
     return score, tuple(reasons)
 
 
@@ -963,6 +1039,10 @@ def _is_weather_abuser(pokemon: dict[str, Any]) -> bool:
     return ability in {"chlorophyll", "swiftswim", "sandrush", "slushrush"} or "weatherball" in moves
 
 
+def _opponent_is_sun(species: set[str], abilities: set[str]) -> bool:
+    return "drought" in abilities or bool(species & {"torkoal", "charizardmegay", "scovillainmega", "venusaur", "venusaurmega"})
+
+
 _PROTECT_MOVES = {"protect", "detect", "spikyshield", "kingsshield", "banefulbunker"}
 _PASSIVE_MOVES = _PROTECT_MOVES | {"calmmind", "swordsdance", "nastyplot", "dragondance", "lifedew"}
 _SPEED_CONTROL_MOVES = {"tailwind", "trickroom", "icywind", "electroweb", "thunderwave", "rocktomb"}
@@ -971,6 +1051,37 @@ _DISRUPTION_MOVES = {"fakeout", "yawn", "spore", "sleeppowder", "willowisp", "ta
 _SETUP_MOVES = {"swordsdance", "nastyplot", "calmmind", "dragondance"}
 _PRIORITY_MOVES = {"fakeout", "suckerpunch", "aquajet", "accelerock", "quickattack", "shadowsneak"}
 _WEATHER_ABILITIES = {"drought", "drizzle", "sandstream", "snowwarning"}
+_FRAGILE_LEAD_SPECIES = {
+    "chandelure",
+    "pelipper",
+    "vivillon",
+    "maushold",
+    "volcarona",
+    "venusaurmega",
+}
+_BENCHMARK_BAD_LEADS = {
+    "pelipper",
+    "chandelure",
+    "venusaurmega",
+    "vivillon",
+    "maushold",
+    "volcarona",
+    "hydreigon",
+}
+_FAST_PHYSICAL_THREATS = {
+    "weavile",
+    "kleavor",
+    "lycanrocdusk",
+    "lopunnymega",
+    "aerodactylmega",
+}
+_SETUP_OR_BULKY_THREATS = {
+    "ceruledge",
+    "milotic",
+    "kommoo",
+    "scizormega",
+    "espathra",
+}
 _SPREAD_DAMAGE_MOVES = {
     "heatwave",
     "rockslide",
