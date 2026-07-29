@@ -422,6 +422,9 @@ class PolicySearchAgent(BeliefSearchAgent):
 
     def decide(self, request: DecisionRequest) -> AgentAction:
         legal_actions = request.get("legal_actions", [])
+        request_type = request["player"].get("requestType")
+        if request_type == "team-preview":
+            return self._decide_team_preview(request, legal_actions)
         if is_doubles_compound_request(legal_actions):
             return self._decide_doubles_compound(request, legal_actions)
 
@@ -453,6 +456,59 @@ class PolicySearchAgent(BeliefSearchAgent):
             "layered_ordering_time_ms": layered_metrics.ordering_time_ms,
         }
         return response
+
+    def _decide_team_preview(
+        self,
+        request: DecisionRequest,
+        legal_actions: list[dict[str, Any]],
+    ) -> AgentAction:
+        team_actions = [action for action in legal_actions if action.get("type") == "team"]
+        if not team_actions:
+            return {
+                "action": choose_fallback_action(legal_actions),
+                "reasons": ["No team preview action was available."],
+                "metrics": {
+                    "search_fallback_used": True,
+                    "search_interruption_reason": "fallback",
+                },
+            }
+        scored = [
+            (
+                _team_preview_score(str(action.get("order", "")), request),
+                action,
+            )
+            for action in team_actions
+        ]
+        scored.sort(key=lambda item: item[0][0], reverse=True)
+        (best_score, best_reasons), best_action = scored[0]
+        return {
+            "action": best_action,
+            "reasons": (
+                "VGC team preview search selected lead and backline.",
+                *best_reasons,
+            ),
+            "score": best_score,
+            "alternatives": [
+                {
+                    "action": action,
+                    "average_utility": score,
+                    "worst_case_utility": score,
+                    "best_case_utility": score,
+                    "reasons": reasons,
+                    "risks": (),
+                }
+                for (score, reasons), action in scored[:5]
+            ],
+            "metrics": {
+                "search_fallback_used": False,
+                "search_interruption_reason": "vgc_team_preview_search",
+                "search_nodes": len(scored),
+                "search_depth_reached": 1,
+                "layered_completed_depth": 1,
+                "layered_attempted_depth": 1,
+                "team_preview_actions_expanded": len(scored),
+            },
+        }
 
     def _decide_doubles_compound(
         self,
@@ -657,6 +713,168 @@ def _vgc_compound_tactical_score(action: dict[str, Any], request: DecisionReques
     return score, tuple(dict.fromkeys(reasons))
 
 
+def _team_preview_score(order: str, request: DecisionRequest) -> tuple[float, tuple[str, ...]]:
+    team_by_slot = {
+        str(pokemon.get("slot")): pokemon
+        for pokemon in request.get("player", {}).get("team", ())
+    }
+    selected = [team_by_slot[slot] for slot in order if slot in team_by_slot]
+    leads = selected[:2]
+    backline = selected[2:4]
+    score = 0.0
+    reasons: list[str] = []
+
+    for pokemon in leads:
+        role_score, role_reasons = _lead_score(pokemon)
+        score += role_score
+        reasons.extend(role_reasons)
+    for pokemon in backline:
+        role_score, role_reasons = _backline_score(pokemon)
+        score += role_score
+        reasons.extend(role_reasons)
+
+    synergy_score, synergy_reasons = _lead_synergy_score(leads, backline)
+    score += synergy_score
+    reasons.extend(synergy_reasons)
+
+    opponent_score, opponent_reasons = _preview_matchup_score(leads, backline, request)
+    score += opponent_score
+    reasons.extend(opponent_reasons)
+
+    if len(selected) < 4:
+        score -= 50.0
+        reasons.append("Penalized incomplete VGC selection.")
+
+    lead_names = "+".join(str(pokemon.get("speciesId")) for pokemon in leads)
+    reasons.insert(0, f"Lead {lead_names or 'unknown'} with order {order}.")
+    return score, tuple(dict.fromkeys(reasons))
+
+
+def _lead_score(pokemon: dict[str, Any]) -> tuple[float, tuple[str, ...]]:
+    moves = _pokemon_moves(pokemon)
+    ability = str(pokemon.get("abilityId") or "").lower()
+    species = str(pokemon.get("speciesId") or "").lower()
+    speed = _pokemon_speed(pokemon)
+    score = 20.0
+    reasons: list[str] = []
+
+    if "fakeout" in moves:
+        score += 28.0
+        reasons.append(f"{species} offers Fake Out lead pressure.")
+    if moves & _SPEED_CONTROL_MOVES:
+        score += 26.0
+        reasons.append(f"{species} offers speed control.")
+    if moves & _REDIRECTION_MOVES:
+        score += 18.0
+        reasons.append(f"{species} offers redirection.")
+    if moves & _SPREAD_DAMAGE_MOVES:
+        score += 14.0
+        reasons.append(f"{species} threatens spread damage.")
+    if moves & _DISRUPTION_MOVES:
+        score += 10.0
+        reasons.append(f"{species} offers disruption.")
+    if moves & _PROTECT_MOVES:
+        score += 6.0
+    if ability in _WEATHER_ABILITIES:
+        score += 18.0
+        reasons.append(f"{species} sets weather.")
+    if speed >= 150:
+        score += 10.0
+        reasons.append(f"{species} is a fast lead.")
+    elif speed <= 70 and "trickroom" not in moves:
+        score -= 8.0
+        reasons.append(f"{species} is slow without Trick Room.")
+    if moves <= _PASSIVE_MOVES:
+        score -= 20.0
+        reasons.append(f"{species} has an overly passive lead profile.")
+    return score, tuple(reasons)
+
+
+def _backline_score(pokemon: dict[str, Any]) -> tuple[float, tuple[str, ...]]:
+    moves = _pokemon_moves(pokemon)
+    ability = str(pokemon.get("abilityId") or "").lower()
+    species = str(pokemon.get("speciesId") or "").lower()
+    score = 12.0
+    reasons: list[str] = []
+    if moves & _PRIORITY_MOVES:
+        score += 14.0
+        reasons.append(f"{species} gives late-game priority.")
+    if moves & _SPREAD_DAMAGE_MOVES:
+        score += 10.0
+        reasons.append(f"{species} gives backline spread damage.")
+    if moves & _PROTECT_MOVES:
+        score += 5.0
+    if ability in _WEATHER_ABILITIES:
+        score += 8.0
+        reasons.append(f"{species} preserves weather control from the back.")
+    if _pokemon_speed(pokemon) >= 150:
+        score += 6.0
+    return score, tuple(reasons)
+
+
+def _lead_synergy_score(leads: list[dict[str, Any]], backline: list[dict[str, Any]]) -> tuple[float, tuple[str, ...]]:
+    all_selected = leads + backline
+    lead_moves = [_pokemon_moves(pokemon) for pokemon in leads]
+    all_moves = [_pokemon_moves(pokemon) for pokemon in all_selected]
+    abilities = {str(pokemon.get("abilityId") or "").lower() for pokemon in all_selected}
+    score = 0.0
+    reasons: list[str] = []
+
+    if any("fakeout" in moves for moves in lead_moves) and any(moves & _SPEED_CONTROL_MOVES for moves in lead_moves):
+        score += 18.0
+        reasons.append("Lead pairs Fake Out with speed control.")
+    if any(moves & _REDIRECTION_MOVES for moves in lead_moves) and any(moves & _SETUP_MOVES for moves in all_moves):
+        score += 12.0
+        reasons.append("Selection pairs redirection with setup.")
+    if any(moves & _SPEED_CONTROL_MOVES for moves in lead_moves) and any(moves & _SPREAD_DAMAGE_MOVES for moves in all_moves):
+        score += 12.0
+        reasons.append("Speed control supports spread attackers.")
+    if abilities & _WEATHER_ABILITIES and any(_is_weather_abuser(pokemon) for pokemon in all_selected):
+        score += 16.0
+        reasons.append("Selection has weather setter plus weather abuser.")
+    if len(leads) == 2 and all(_pokemon_speed(pokemon) <= 80 for pokemon in leads):
+        if not any("trickroom" in moves for moves in lead_moves):
+            score -= 18.0
+            reasons.append("Penalized double slow lead without Trick Room.")
+    if len(leads) == 2 and all(_pokemon_moves(pokemon) & _PROTECT_MOVES for pokemon in leads):
+        score += 4.0
+    return score, tuple(reasons)
+
+
+def _preview_matchup_score(
+    leads: list[dict[str, Any]],
+    backline: list[dict[str, Any]],
+    request: DecisionRequest,
+) -> tuple[float, tuple[str, ...]]:
+    opponent = request.get("opponent") or request.get("observed_opponent") or {}
+    opponent_team = opponent.get("team", ())
+    opponent_moves = [_pokemon_moves(pokemon) for pokemon in opponent_team]
+    selected = leads + backline
+    selected_moves = [_pokemon_moves(pokemon) for pokemon in selected]
+    score = 0.0
+    reasons: list[str] = []
+
+    if any("fakeout" in moves for moves in opponent_moves):
+        if any("fakeout" in moves for moves in selected_moves) or any(moves & _PROTECT_MOVES for moves in selected_moves):
+            score += 10.0
+            reasons.append("Selection respects opposing Fake Out pressure.")
+        else:
+            score -= 12.0
+            reasons.append("Penalized selection without Fake Out counterplay.")
+    if any(moves & _SPEED_CONTROL_MOVES for moves in opponent_moves):
+        if any(moves & _SPEED_CONTROL_MOVES for moves in selected_moves):
+            score += 10.0
+            reasons.append("Selection contests opposing speed control.")
+        else:
+            score -= 10.0
+            reasons.append("Penalized selection without speed-control counterplay.")
+    if any(str(pokemon.get("abilityId") or "").lower() in _WEATHER_ABILITIES for pokemon in opponent_team):
+        if any(str(pokemon.get("abilityId") or "").lower() in _WEATHER_ABILITIES for pokemon in selected):
+            score += 8.0
+            reasons.append("Selection contests opposing weather.")
+    return score, tuple(reasons)
+
+
 def _opponent_compound_pressure(request: DecisionRequest) -> float:
     opponent = request.get("opponent") or request.get("observed_opponent") or {}
     pressure = 0.0
@@ -727,12 +945,32 @@ def _has_spread_damage(move_ids: set[str]) -> bool:
     return bool(move_ids & _SPREAD_DAMAGE_MOVES)
 
 
+def _pokemon_moves(pokemon: dict[str, Any]) -> set[str]:
+    return {str(move).lower() for move in pokemon.get("moves", ())}
+
+
+def _pokemon_speed(pokemon: dict[str, Any]) -> int:
+    stats = pokemon.get("stats") or {}
+    try:
+        return int(stats.get("spe") or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _is_weather_abuser(pokemon: dict[str, Any]) -> bool:
+    ability = str(pokemon.get("abilityId") or "").lower()
+    moves = _pokemon_moves(pokemon)
+    return ability in {"chlorophyll", "swiftswim", "sandrush", "slushrush"} or "weatherball" in moves
+
+
 _PROTECT_MOVES = {"protect", "detect", "spikyshield", "kingsshield", "banefulbunker"}
 _PASSIVE_MOVES = _PROTECT_MOVES | {"calmmind", "swordsdance", "nastyplot", "dragondance", "lifedew"}
 _SPEED_CONTROL_MOVES = {"tailwind", "trickroom", "icywind", "electroweb", "thunderwave", "rocktomb"}
 _REDIRECTION_MOVES = {"followme", "ragepowder"}
 _DISRUPTION_MOVES = {"fakeout", "yawn", "spore", "sleeppowder", "willowisp", "taunt", "partingshot"}
 _SETUP_MOVES = {"swordsdance", "nastyplot", "calmmind", "dragondance"}
+_PRIORITY_MOVES = {"fakeout", "suckerpunch", "aquajet", "accelerock", "quickattack", "shadowsneak"}
+_WEATHER_ABILITIES = {"drought", "drizzle", "sandstream", "snowwarning"}
 _SPREAD_DAMAGE_MOVES = {
     "heatwave",
     "rockslide",

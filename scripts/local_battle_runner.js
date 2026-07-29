@@ -371,11 +371,11 @@ function getLegalActions(request) {
   }
 
   if (request.teamPreview) {
-    return [{
+    return teamPreviewOrders(sidePokemon).map((order, index) => ({
       type: "team",
-      slot: 1,
-      order: teamPreviewOrder(sidePokemon),
-    }];
+      slot: index + 1,
+      order,
+    }));
   }
 
   const activeList = request.active || [];
@@ -753,13 +753,30 @@ function isChampionsFormat(format) {
 
 const INVALID_TARGET = Symbol("invalid-target");
 
-function teamPreviewOrder(sidePokemon) {
-  const activeSlots = sidePokemon
+function teamPreviewOrders(sidePokemon) {
+  const liveSlots = sidePokemon
     .map((pokemon, index) => ({pokemon, slot: index + 1}))
     .filter(({pokemon}) => !String(pokemon.condition || "").endsWith(" fnt"))
-    .slice(0, 4)
     .map(({slot}) => String(slot));
-  return activeSlots.length ? activeSlots.join("") : "1234";
+  if (!liveSlots.length) {
+    return ["1234"];
+  }
+  const bringCount = Math.min(4, liveSlots.length);
+  return permutations(liveSlots, bringCount).map((order) => order.join(""));
+}
+
+function permutations(values, size, prefix = []) {
+  if (prefix.length === size) {
+    return [prefix];
+  }
+  const results = [];
+  for (const value of values) {
+    if (prefix.includes(value)) {
+      continue;
+    }
+    results.push(...permutations(values, size, [...prefix, value]));
+  }
+  return results;
 }
 
 function defaultTargetForMove(targetType, activeIndex = 0, activePokemon = []) {

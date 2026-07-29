@@ -30,6 +30,44 @@ class BenchmarkAgentsTest(unittest.TestCase):
         self.assertIsInstance(agent, PreviousVersionAgent)
         self.assertEqual(agent.name, "previous-version")
 
+    def test_policy_search_ranks_team_preview_orders(self) -> None:
+        agent = create_battle_agent("search-v3-policy")
+        response = agent.decide(
+            {
+                "player": {
+                    "requestType": "team-preview",
+                    "team": [
+                        self._pokemon(1, "hydreigon", 98, ("darkpulse", "protect")),
+                        self._pokemon(2, "mamoswine", 80, ("earthquake", "protect")),
+                        self._pokemon(3, "incineroar", 80, ("fakeout", "partingshot")),
+                        self._pokemon(4, "whimsicott", 184, ("tailwind", "moonblast")),
+                        self._pokemon(5, "garchomp", 169, ("earthquake", "rockslide", "protect")),
+                        self._pokemon(6, "kingambit", 70, ("suckerpunch", "kowtowcleave", "protect")),
+                    ],
+                },
+                "opponent": {"team": []},
+                "legal_actions": [
+                    {"type": "team", "slot": 1, "order": "1234"},
+                    {"type": "team", "slot": 2, "order": "3415"},
+                    {"type": "team", "slot": 3, "order": "3456"},
+                ],
+            }
+        )
+
+        self.assertEqual(response["action"]["order"], "3456")
+        self.assertEqual(response["metrics"]["search_interruption_reason"], "vgc_team_preview_search")
+        self.assertFalse(response["metrics"]["search_fallback_used"])
+
+    def _pokemon(self, slot: int, species: str, speed: int, moves: tuple[str, ...]):
+        return {
+            "slot": slot,
+            "speciesId": species,
+            "condition": "100/100",
+            "active": False,
+            "stats": {"spe": speed},
+            "moves": list(moves),
+        }
+
 
 if __name__ == "__main__":
     unittest.main()
