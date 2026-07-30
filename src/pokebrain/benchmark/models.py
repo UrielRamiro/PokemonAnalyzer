@@ -55,6 +55,8 @@ class BattleBenchmarkResult:
     average_decision_time_ms: float = 0.0
     lead_a_id: str | None = None
     lead_b_id: str | None = None
+    lead_a_pair_id: str | None = None
+    lead_b_pair_id: str | None = None
     species_a: tuple[str, ...] = ()
     species_b: tuple[str, ...] = ()
     archetype_a: str | None = None

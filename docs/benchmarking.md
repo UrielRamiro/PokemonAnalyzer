@@ -9,7 +9,7 @@ For the current Champions VGC Reg M-B iteration loop, use
 ## Run
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark `
+python -m pokebrain benchmark `
   --format gen9ou `
   --agent-a pokebrain-v1 `
   --agent-b max-damage `
@@ -21,13 +21,13 @@ For the current Champions VGC Reg M-B iteration loop, use
 For a quick smoke test:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark --format gen9ou --agent-a pokebrain-v1 --agent-b max-damage --battles 2 --teams teams --seed 123 --maximum-turns 2
+python -m pokebrain benchmark --format gen9ou --agent-a pokebrain-v1 --agent-b max-damage --battles 2 --teams teams --seed 123 --maximum-turns 2
 ```
 
 With timeout and parallel workers:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark --format gen9ou --agent-a pokebrain-v1 --agent-b max-damage --battles 100 --teams teams --seed 123 --maximum-turns 500 --timeout-seconds 120 --parallel-workers 4
+python -m pokebrain benchmark --format gen9ou --agent-a pokebrain-v1 --agent-b max-damage --battles 100 --teams teams --seed 123 --maximum-turns 500 --timeout-seconds 120 --parallel-workers 4
 ```
 
 ## Agents
@@ -120,7 +120,7 @@ Current archetype labels are lightweight heuristics: `rain`, `sun`, `snow`,
 ## Compare Runs
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain compare-benchmarks --run-a benchmark-AAAA --run-b benchmark-BBBB
+python -m pokebrain compare-benchmarks --run-a benchmark-AAAA --run-b benchmark-BBBB
 ```
 
 The comparison reports adjusted win-rate difference and whether the approximate
@@ -131,7 +131,7 @@ The comparison reports adjusted win-rate difference and whether the approximate
 After a benchmark, inspect where the first agent is losing:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain review-benchmark --run benchmark-AAAA --only-losses --top 10 --min-battles 3
+python -m pokebrain review-benchmark --run benchmark-AAAA --only-losses --top 10 --min-battles 3
 ```
 
 The replay analyzer still reports objective replay categories when it can find
@@ -141,12 +141,24 @@ example replay directories for the shortest and longest losses.
 
 `--min-battles` filters noisy groups. Increase it for large benchmarks.
 
+To focus on lead pairs and very short losses:
+
+```powershell
+python -m pokebrain review-benchmark-leads --run benchmark-AAAA --max-turns 4 --top 20 --min-battles 10
+```
+
+This reports worst own lead pairs, worst opponent lead pairs, worst lead
+matchups, first-turn tags in short losses and replay examples to inspect.
+New benchmark rows persist full lead pairs in SQLite. Older benchmarks are
+reconstructed from the saved Team Preview artifacts when those files still
+exist locally.
+
 ## Performance Benchmark
 
 Use this before promoting a search agent:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark-performance `
+python -m pokebrain benchmark-performance `
   --format gen9ou `
   --agents pokebrain-v1 search-v1 search-v1-cache `
   --pairs 50 `
@@ -164,37 +176,37 @@ errors.
 For a smoke test:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark-performance --format gen9ou --agents search-v1 search-v1-cache --pairs 1 --teams teams --seed 132 --maximum-turns 2 --timeout-seconds 90
+python -m pokebrain benchmark-performance --format gen9ou --agents search-v1 search-v1-cache --pairs 1 --teams teams --seed 132 --maximum-turns 2 --timeout-seconds 90
 ```
 
 To compare the first belief-aware agent:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark-performance --format gen9ou --agents search-v1-cache search-v2-belief --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
+python -m pokebrain benchmark-performance --format gen9ou --agents search-v1-cache search-v2-belief --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
 ```
 
 To compare the scenario-aware damage pipeline:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark-performance --format gen9ou --agents search-v2-belief search-v2-belief-shared --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
+python -m pokebrain benchmark-performance --format gen9ou --agents search-v2-belief search-v2-belief-shared --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
 ```
 
 To compare the layered scheduler:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark-performance --format gen9ou --agents search-v2-belief-shared search-v2-belief-layered --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
+python -m pokebrain benchmark-performance --format gen9ou --agents search-v2-belief-shared search-v2-belief-layered --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
 ```
 
 To compare the opponent policy model:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark-performance --format gen9ou --agents search-v2-belief-layered search-v3-policy --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
+python -m pokebrain benchmark-performance --format gen9ou --agents search-v2-belief-layered search-v3-policy --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
 ```
 
 To shadow-test a calibrated profile before promotion:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain benchmark-performance --format gen9ou --agents search-v3-policy search-v3-policy-calibrated-shadow --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
+python -m pokebrain benchmark-performance --format gen9ou --agents search-v3-policy search-v3-policy-calibrated-shadow --pairs 50 --teams teams --seed 132 --maximum-turns 100 --timeout-seconds 120
 ```
 
 For belief agents, the report includes same-scenario and cross-scenario cache
@@ -213,13 +225,13 @@ distribution and the average number of weighted opponent actions expanded.
 Evaluate the current opponent policy on replay directories:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain evaluate-policy --format gen9ou --replays runs\2026-07-20\policy-smoke-3
+python -m pokebrain evaluate-policy --format gen9ou --replays runs\2026-07-20\policy-smoke-3
 ```
 
 Fit a profile offline and save it for `search-v4-policy-calibrated`:
 
 ```powershell
-.\.venv\bin\python.exe -m pokebrain calibrate-policy --format gen9ou --replays runs\2026-07-20\policy-smoke-3 --output data\policy_profiles\gen9ou.json
+python -m pokebrain calibrate-policy --format gen9ou --replays runs\2026-07-20\policy-smoke-3 --output data\policy_profiles\gen9ou.json
 ```
 
 The calibration report includes Top-1, Top-3, Top-4, assigned probability for

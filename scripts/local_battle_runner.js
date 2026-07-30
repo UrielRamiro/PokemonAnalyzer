@@ -441,22 +441,24 @@ function getCompoundLegalActions(request, activeList, sidePokemon) {
     const choices = [];
     (active.moves || []).forEach((move, index) => {
       if (!move.disabled && (move.pp === undefined || move.pp > 0)) {
-        const target = defaultTargetForMove(move.target, activeIndex, activePokemon);
-        if (target === INVALID_TARGET) {
+        const targets = targetLocationsForMove(move.target, activeIndex, activePokemon, slotCount);
+        if (targets === INVALID_TARGET) {
           return;
         }
-        const choice = {
-          type: "move",
-          activeSlot,
-          slot: index + 1,
-          moveId: move.id,
-          target,
-          canTerastallize: Boolean(active.canTerastallize),
-        };
-        choices.push(choice);
-        if (active.canTerastallize) {
-          choices.push({...choice, terastallize: true});
-        }
+        targets.forEach((target) => {
+          const choice = {
+            type: "move",
+            activeSlot,
+            slot: index + 1,
+            moveId: move.id,
+            target,
+            canTerastallize: Boolean(active.canTerastallize),
+          };
+          choices.push(choice);
+          if (active.canTerastallize) {
+            choices.push({...choice, terastallize: true});
+          }
+        });
       }
     });
     if (!active.trapped) {
@@ -514,7 +516,8 @@ function describeAction(action, request) {
     const activeIndex = Math.max(0, Number(action.activeSlot || 1) - 1);
     const move = request.active[activeIndex]?.moves?.find((candidate) => candidate.slot === action.slot);
     const name = move ? move.name : `move ${action.slot}`;
-    return action.terastallize ? `${name} + Tera` : name;
+    const target = action.target === null || action.target === undefined ? "" : ` -> ${action.target}`;
+    return action.terastallize ? `${name}${target} + Tera` : `${name}${target}`;
   }
   if (action.type === "switch") {
     const pokemon = request.team.find((candidate) => candidate.slot === action.slot);
@@ -779,17 +782,19 @@ function permutations(values, size, prefix = []) {
   return results;
 }
 
-function defaultTargetForMove(targetType, activeIndex = 0, activePokemon = []) {
+function targetLocationsForMove(targetType, activeIndex = 0, activePokemon = [], opponentSlotCount = 1) {
   if (["normal", "any", "adjacentFoe", "randomNormal"].includes(targetType)) {
-    return 1;
+    return Array.from({length: Math.max(1, opponentSlotCount)}, (_value, index) => index + 1);
   }
   if (targetType === "adjacentAlly") {
-    return liveAllyTarget(activeIndex, activePokemon);
+    const target = liveAllyTarget(activeIndex, activePokemon);
+    return target === INVALID_TARGET ? INVALID_TARGET : [target];
   }
   if (targetType === "adjacentAllyOrSelf") {
-    return liveAllyTarget(activeIndex, activePokemon) === INVALID_TARGET ? null : liveAllyTarget(activeIndex, activePokemon);
+    const allyTarget = liveAllyTarget(activeIndex, activePokemon);
+    return allyTarget === INVALID_TARGET ? [null] : [null, allyTarget];
   }
-  return null;
+  return [null];
 }
 
 function liveAllyTarget(activeIndex, activePokemon) {

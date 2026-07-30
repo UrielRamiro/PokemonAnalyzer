@@ -194,7 +194,7 @@ class LocalShowdownBattleRunner:
     ) -> BattleBenchmarkResult:
         with result_path.open("r", encoding="utf-8") as file:
             data = json.load(file)
-        lead_a, lead_b = _extract_leads(result_path.parent)
+        lead_a, lead_b, lead_a_pair, lead_b_pair = _extract_leads(result_path.parent)
         seed = data.get("seed", fallback_seed)
         return BattleBenchmarkResult(
             battle_id=data.get("battle_id", result_path.parent.name),
@@ -216,6 +216,8 @@ class LocalShowdownBattleRunner:
             average_decision_time_ms=float(data.get("average_decision_time_ms", 0.0)),
             lead_a_id=lead_a,
             lead_b_id=lead_b,
+            lead_a_pair_id=lead_a_pair,
+            lead_b_pair_id=lead_b_pair,
             species_a=species_ids_from_team_file(format_id, team_a.path),
             species_b=species_ids_from_team_file(format_id, team_b.path),
             archetype_a=classify_team_archetype(format_id, team_a.path),
@@ -244,10 +246,16 @@ def _classify_process_failure(output: str) -> str:
     return "protocol_error"
 
 
-def _extract_leads(run_dir: Path) -> tuple[str | None, str | None]:
+def _extract_leads(run_dir: Path) -> tuple[str | None, str | None, str | None, str | None]:
+    preview_pairs = _extract_preview_pairs(run_dir)
+    if "p1" in preview_pairs and "p2" in preview_pairs:
+        p1_pair = preview_pairs["p1"]
+        p2_pair = preview_pairs["p2"]
+        return _first_species(p1_pair), _first_species(p2_pair), p1_pair, p2_pair
+
     states_path = run_dir / "states.jsonl"
     if not states_path.exists():
-        return None, None
+        return None, None, None, None
     leads: dict[str, str] = {}
     with states_path.open("r", encoding="utf-8") as file:
         for line in file:
@@ -261,4 +269,87 @@ def _extract_leads(run_dir: Path) -> tuple[str | None, str | None]:
                 leads[player_id] = active.get("speciesId")
             if "p1" in leads and "p2" in leads:
                 break
-    return leads.get("p1"), leads.get("p2")
+    return leads.get("p1"), leads.get("p2"), leads.get("p1"), leads.get("p2")
+
+
+def _extract_preview_pairs(run_dir: Path) -> dict[str, str]:
+    species_by_side = _preview_species_by_side(run_dir)
+    orders_by_side = _preview_orders_by_side(run_dir)
+    pairs: dict[str, str] = {}
+    for side, order in orders_by_side.items():
+        species = species_by_side.get(side, ())
+        lead_pair = _lead_pair_from_order(species, order)
+        if lead_pair:
+            pairs[side] = lead_pair
+    return pairs
+
+
+def _preview_species_by_side(run_dir: Path) -> dict[str, tuple[str, ...]]:
+    states_path = run_dir / "states.jsonl"
+    if not states_path.exists():
+        return {}
+    species_by_side: dict[str, tuple[str, ...]] = {}
+    with states_path.open("r", encoding="utf-8") as file:
+        for line in file:
+            if not line.strip():
+                continue
+            entry = json.loads(line)
+            if entry.get("turn") != 0:
+                if species_by_side:
+                    break
+                continue
+            request = entry.get("request") or {}
+            if request.get("requestType") != "team-preview":
+                continue
+            player_id = entry.get("player_id")
+            if player_id in {"p1", "p2"}:
+                species_by_side[player_id] = tuple(
+                    str(pokemon.get("speciesId") or "unknown")
+                    for pokemon in request.get("team", ())
+                )
+            if "p1" in species_by_side and "p2" in species_by_side:
+                break
+    return species_by_side
+
+
+def _preview_orders_by_side(run_dir: Path) -> dict[str, str]:
+    decisions_path = run_dir / "decisions.jsonl"
+    if not decisions_path.exists():
+        return {}
+    orders_by_side: dict[str, str] = {}
+    with decisions_path.open("r", encoding="utf-8") as file:
+        for line in file:
+            if not line.strip():
+                continue
+            entry = json.loads(line)
+            if entry.get("turn") != 0 or "selected_action" not in entry:
+                continue
+            action = entry.get("selected_action") or {}
+            if action.get("type") != "team":
+                continue
+            player_id = entry.get("player_id")
+            order = action.get("order")
+            if player_id in {"p1", "p2"} and order:
+                orders_by_side[player_id] = str(order)
+            if "p1" in orders_by_side and "p2" in orders_by_side:
+                break
+    return orders_by_side
+
+
+def _lead_pair_from_order(species: tuple[str, ...], order: str) -> str | None:
+    selected: list[str] = []
+    for character in order[:2]:
+        if not character.isdigit():
+            continue
+        index = int(character) - 1
+        if 0 <= index < len(species):
+            selected.append(species[index])
+    if not selected:
+        return None
+    return "+".join(selected)
+
+
+def _first_species(pair: str | None) -> str | None:
+    if not pair:
+        return None
+    return pair.split("+", 1)[0]

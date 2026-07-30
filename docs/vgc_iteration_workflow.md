@@ -127,7 +127,27 @@ O relatorio mostra:
 
 Nao trate `0V/3D` como prova. Isso e apenas sinal fraco. Priorize grupos com mais volume.
 
-## 5. Comparar Benchmarks
+## 5. Analisar Leads E Derrotas Curtas
+
+Quando o relatorio indicar problemas de lead ou derrotas muito curtas, rode:
+
+```powershell
+python -m pokebrain review-benchmark-leads --run benchmark-SEU-ID --max-turns 4 --top 20 --min-battles 10
+```
+
+Esse comando olha as batalhas do benchmark pela perspectiva do primeiro agente da run e mostra:
+
+- piores lead pairs proprios;
+- piores lead pairs adversarios;
+- piores confrontos de lead pair;
+- tags do turno 1 nas derrotas curtas, como `fake_out`, `protect`, `tailwind`, `trick_room`, `redirection` e `switch`;
+- exemplos de replays para abrir manualmente.
+
+Benchmarks novos salvam os lead pairs no SQLite. Em benchmarks antigos, o comando reconstroi a dupla a partir do Team Preview salvo nos artefatos locais da batalha.
+
+Use `--max-turns` para definir o que conta como derrota curta. Use `--min-battles` para ignorar grupos com pouco dado.
+
+## 6. Comparar Benchmarks
 
 Depois de mudar o Search, rode outro benchmark com seed e times comparaveis.
 
@@ -145,13 +165,14 @@ Promova uma mudanca apenas se ela:
 - nao piorar muito buckets importantes;
 - explicar melhor uma fraqueza observada.
 
-## 6. Ciclo De Trabalho
+## 7. Ciclo De Trabalho
 
 O ciclo recomendado pelo tech lead agora e:
 
 ```text
 benchmark
 -> review-benchmark
+-> review-benchmark-leads quando a fraqueza parecer estar nos leads
 -> escolher uma fraqueza objetiva
 -> melhorar Search
 -> benchmark novo
@@ -169,7 +190,7 @@ Exemplos de fraquezas objetivas:
 - Tailwind ou speed control subestimado;
 - derrotas muito curtas contra um nucleo especifico.
 
-## 7. Limpeza Antes De Regerar
+## 8. Limpeza Antes De Regerar
 
 Para zerar somente benchmarks:
 

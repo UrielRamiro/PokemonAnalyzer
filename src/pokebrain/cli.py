@@ -20,7 +20,7 @@ from pokebrain.policy_dataset.cli import (
     report_policy_pilot_command,
 )
 from pokebrain.policy_evaluation.cli import compare_policy_baselines_command, evaluate_policy_baselines_command
-from pokebrain.replay.cli import review_battle_command, review_benchmark_command
+from pokebrain.replay.cli import review_battle_command, review_benchmark_command, review_benchmark_leads_command
 from pokebrain.replays.cli import collect_replays_command, parse_replays_command
 from pokebrain.regressions import test_regressions_command
 from pokebrain.team.models import EVSpread, IVSpread, PokemonSet
@@ -99,6 +99,16 @@ def main() -> None:
     review_benchmark_parser.add_argument("--only-losses", action="store_true")
     review_benchmark_parser.add_argument("--top", type=int, default=10)
     review_benchmark_parser.add_argument("--min-battles", type=int, default=3)
+
+    review_benchmark_leads_parser = subparsers.add_parser(
+        "review-benchmark-leads",
+        help="Analyze lead pairs and early losses for a benchmark run.",
+    )
+    review_benchmark_leads_parser.add_argument("--run", required=True)
+    review_benchmark_leads_parser.add_argument("--database", default="data/database/benchmarks.db")
+    review_benchmark_leads_parser.add_argument("--max-turns", type=int, default=4)
+    review_benchmark_leads_parser.add_argument("--top", type=int, default=20)
+    review_benchmark_leads_parser.add_argument("--min-battles", type=int, default=5)
 
     evaluate_policy_parser = subparsers.add_parser("evaluate-policy", help="Evaluate the opponent policy model on replay directories.")
     evaluate_policy_parser.add_argument("--format", required=True)
@@ -245,6 +255,14 @@ def main() -> None:
             run_id=args.run,
             database_path=Path(args.database),
             only_losses=args.only_losses,
+            top=args.top,
+            minimum_battles=args.min_battles,
+        )
+    elif args.command == "review-benchmark-leads":
+        review_benchmark_leads_command(
+            run_id=args.run,
+            database_path=Path(args.database),
+            maximum_turns=args.max_turns,
             top=args.top,
             minimum_battles=args.min_battles,
         )

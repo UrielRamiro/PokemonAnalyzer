@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from pokebrain.benchmark.lead_report import TextLeadEarlyLossRenderer, build_lead_early_loss_report
 from pokebrain.benchmark.loss_report import TextBenchmarkLossRenderer, build_loss_report
 from pokebrain.benchmark.repository import BenchmarkResultRepository
 from pokebrain.replay.aggregate import aggregate_reviews
@@ -77,6 +78,28 @@ def review_benchmark_command(
     )
     print("")
     _print_agent_fallback_summary(battles=tuple(battles), primary_agent=agent_a)
+
+
+def review_benchmark_leads_command(
+    *,
+    run_id: str,
+    database_path: Path,
+    maximum_turns: int,
+    top: int,
+    minimum_battles: int,
+) -> None:
+    repository = BenchmarkResultRepository(database_path)
+    battles = tuple(repository.load_battles(run_id))
+    agent_a, _agent_b = repository.get_run_agents(run_id)
+    report = build_lead_early_loss_report(
+        run_id=run_id,
+        battles=battles,
+        primary_agent=agent_a,
+        maximum_turns=maximum_turns,
+        top=top,
+        minimum_battles=minimum_battles,
+    )
+    print(TextLeadEarlyLossRenderer().render(report))
 
 
 def _print_agent_fallback_summary(*, battles, primary_agent: str) -> None:

@@ -66,10 +66,10 @@ class BenchmarkResultRepository:
                         illegal_action_count_a, illegal_action_count_b,
                         decision_error_count_a, decision_error_count_b,
                         duration_seconds, run_dir, average_decision_time_ms,
-                        lead_a_id, lead_b_id, species_a, species_b,
+                        lead_a_id, lead_b_id, lead_a_pair_id, lead_b_pair_id, species_a, species_b,
                         archetype_a, archetype_b
                     )
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         result.battle_id,
@@ -92,6 +92,8 @@ class BenchmarkResultRepository:
                         result.average_decision_time_ms,
                         result.lead_a_id,
                         result.lead_b_id,
+                        result.lead_a_pair_id,
+                        result.lead_b_pair_id,
                         text_tuple(result.species_a),
                         text_tuple(result.species_b),
                         result.archetype_a,
@@ -197,6 +199,8 @@ class BenchmarkResultRepository:
                         average_decision_time_ms REAL NOT NULL DEFAULT 0,
                         lead_a_id TEXT,
                         lead_b_id TEXT,
+                        lead_a_pair_id TEXT,
+                        lead_b_pair_id TEXT,
                         species_a TEXT NOT NULL DEFAULT '',
                         species_b TEXT NOT NULL DEFAULT '',
                         archetype_a TEXT,
@@ -214,6 +218,8 @@ class BenchmarkResultRepository:
                 )
                 self._ensure_column(connection, "benchmark_battles", "lead_a_id", "TEXT")
                 self._ensure_column(connection, "benchmark_battles", "lead_b_id", "TEXT")
+                self._ensure_column(connection, "benchmark_battles", "lead_a_pair_id", "TEXT")
+                self._ensure_column(connection, "benchmark_battles", "lead_b_pair_id", "TEXT")
                 self._ensure_column(connection, "benchmark_battles", "species_a", "TEXT NOT NULL DEFAULT ''")
                 self._ensure_column(connection, "benchmark_battles", "species_b", "TEXT NOT NULL DEFAULT ''")
                 self._ensure_column(connection, "benchmark_battles", "archetype_a", "TEXT")
@@ -266,6 +272,8 @@ class BenchmarkResultRepository:
             average_decision_time_ms=row["average_decision_time_ms"],
             lead_a_id=row["lead_a_id"],
             lead_b_id=row["lead_b_id"],
+            lead_a_pair_id=row["lead_a_pair_id"],
+            lead_b_pair_id=row["lead_b_pair_id"],
             species_a=tuple_from_text(row["species_a"]),
             species_b=tuple_from_text(row["species_b"]),
             archetype_a=row["archetype_a"],
