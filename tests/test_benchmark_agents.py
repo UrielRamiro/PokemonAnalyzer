@@ -111,12 +111,91 @@ class BenchmarkAgentsTest(unittest.TestCase):
 
         self.assertEqual(response["action"]["order"], "3412")
 
-    def _pokemon(self, slot: int, species: str, speed: int, moves: tuple[str, ...], ability: str | None = None):
+    def test_policy_search_avoids_greedy_fake_out_tailwind_into_focus_fire(self) -> None:
+        agent = create_battle_agent("search-v3-policy")
+        response = agent.decide(
+            {
+                "turn": 1,
+                "player": {
+                    "requestType": "move",
+                    "team": [
+                        self._pokemon(1, "sneasler", 189, ("fakeout", "closecombat", "protect"), active=True),
+                        self._pokemon(2, "whimsicott", 184, ("tailwind", "moonblast", "protect"), active=True),
+                        self._pokemon(3, "kingambit", 70, ("kowtowcleave", "protect")),
+                    ],
+                },
+                "opponent": {
+                    "team": [
+                        self._pokemon(1, "kingambit", 70, ("kowtowcleave", "suckerpunch", "protect"), active=True),
+                        self._pokemon(2, "charizardmegay", 146, ("heatwave", "solarbeam", "protect"), active=True),
+                    ]
+                },
+                "legal_actions": [
+                    {
+                        "type": "compound",
+                        "choices": [
+                            {"type": "move", "activeSlot": 1, "slot": 1, "moveId": "fakeout", "target": 1},
+                            {"type": "move", "activeSlot": 2, "slot": 1, "moveId": "tailwind", "target": None},
+                        ],
+                    },
+                    {
+                        "type": "compound",
+                        "choices": [
+                            {"type": "move", "activeSlot": 1, "slot": 3, "moveId": "protect", "target": None},
+                            {"type": "move", "activeSlot": 2, "slot": 1, "moveId": "tailwind", "target": None},
+                        ],
+                    },
+                ],
+            }
+        )
+
+        selected = response["action"]["choices"]
+        self.assertEqual(selected[0]["moveId"], "protect")
+
+    def test_policy_search_penalizes_fragile_preview_into_kingambit_charizard(self) -> None:
+        agent = create_battle_agent("search-v3-policy")
+        response = agent.decide(
+            {
+                "player": {
+                    "requestType": "team-preview",
+                    "team": [
+                        self._pokemon(1, "sneasler", 189, ("fakeout", "closecombat", "protect")),
+                        self._pokemon(2, "whimsicott", 184, ("tailwind", "moonblast", "protect")),
+                        self._pokemon(3, "incineroar", 80, ("fakeout", "partingshot", "flareblitz", "protect")),
+                        self._pokemon(4, "kingambit", 70, ("kowtowcleave", "suckerpunch", "protect")),
+                        self._pokemon(5, "garchomp", 169, ("earthquake", "rockslide", "protect")),
+                        self._pokemon(6, "froslassmega", 170, ("blizzard", "protect")),
+                    ],
+                },
+                "opponent": {
+                    "team": [
+                        self._pokemon(1, "kingambit", 70, ("kowtowcleave", "suckerpunch", "protect"), ability="defiant"),
+                        self._pokemon(2, "charizardmegay", 146, ("heatwave", "solarbeam", "protect"), ability="drought"),
+                    ]
+                },
+                "legal_actions": [
+                    {"type": "team", "slot": 1, "order": "1234"},
+                    {"type": "team", "slot": 2, "order": "3514"},
+                ],
+            }
+        )
+
+        self.assertEqual(response["action"]["order"], "3514")
+
+    def _pokemon(
+        self,
+        slot: int,
+        species: str,
+        speed: int,
+        moves: tuple[str, ...],
+        ability: str | None = None,
+        active: bool = False,
+    ):
         return {
             "slot": slot,
             "speciesId": species,
             "condition": "100/100",
-            "active": False,
+            "active": active,
             "stats": {"spe": speed},
             "moves": list(moves),
             "abilityId": ability,

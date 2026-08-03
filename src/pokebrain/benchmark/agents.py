@@ -700,6 +700,10 @@ def _vgc_compound_tactical_score(action: dict[str, Any], request: DecisionReques
         score -= 16.0
         reasons.append("Penalized setup under high immediate pressure.")
 
+    focus_score, focus_reasons = _turn_one_focus_fire_score(action, request)
+    score += focus_score
+    reasons.extend(focus_reasons)
+
     low_hp_attackers = _low_hp_active_slots(request)
     for choice in choices:
         if choice.get("type") != "move":
@@ -711,6 +715,72 @@ def _vgc_compound_tactical_score(action: dict[str, Any], request: DecisionReques
             reasons.append("Penalized exposing a low-HP active slot.")
 
     return score, tuple(dict.fromkeys(reasons))
+
+
+def _turn_one_focus_fire_score(action: dict[str, Any], request: DecisionRequest) -> tuple[float, tuple[str, ...]]:
+    if int(request.get("turn") or 0) > 1:
+        return 0.0, ()
+    choices = tuple(action.get("choices", ()))
+    move_choices = tuple(choice for choice in choices if choice.get("type") == "move")
+    if len(move_choices) < 2:
+        return 0.0, ()
+
+    opponent_active = _active_pokemon(request.get("opponent") or request.get("observed_opponent") or {})
+    if len(opponent_active) < 2:
+        return 0.0, ()
+
+    own_active = _active_pokemon(request.get("player") or {})
+    if len(own_active) < 2:
+        return 0.0, ()
+
+    opponent_pressure = _opponent_turn_one_pressure(opponent_active)
+    if opponent_pressure < 2:
+        return 0.0, ()
+
+    move_ids_by_slot = {
+        int(choice.get("activeSlot") or 1): str(choice.get("moveId") or "").lower()
+        for choice in move_choices
+    }
+    has_fakeout = "fakeout" in set(move_ids_by_slot.values())
+    has_speed_setup = bool(set(move_ids_by_slot.values()) & {"tailwind", "trickroom"})
+    has_redirection = bool(set(move_ids_by_slot.values()) & _REDIRECTION_MOVES)
+    has_team_shield = bool(set(move_ids_by_slot.values()) & {"wideguard", "quickguard"})
+    protected_slots = {
+        int(choice.get("activeSlot") or 1)
+        for choice in move_choices
+        if str(choice.get("moveId") or "").lower() in _PROTECT_MOVES
+    }
+
+    score = 0.0
+    reasons: list[str] = []
+    exposed_vulnerable_slots = {
+        slot
+        for slot, pokemon in enumerate(own_active, start=1)
+        if slot not in protected_slots and _is_focus_fire_vulnerable(pokemon)
+    }
+    if exposed_vulnerable_slots and protected_slots and opponent_pressure >= 2:
+        score += 22.0 * len(protected_slots & set(range(1, len(own_active) + 1)))
+        reasons.append("Rewarded Protect against likely turn-one focus fire.")
+
+    if not exposed_vulnerable_slots:
+        return score, tuple(reasons)
+
+    greedy_speed_plan = has_speed_setup and (has_fakeout or has_redirection)
+    if greedy_speed_plan and not has_team_shield:
+        penalty = 42.0 + 8.0 * min(2, len(exposed_vulnerable_slots))
+        uncovered_spread = _uncovered_opponent_spread_threats(move_choices, opponent_active)
+        if uncovered_spread:
+            penalty += 18.0
+            reasons.append("Penalized turn-one speed setup while leaving spread damage active.")
+        else:
+            reasons.append("Penalized turn-one speed setup into likely focus fire.")
+        score -= penalty
+
+    if has_redirection and _opponent_has_spread_damage_active(opponent_active) and not has_team_shield:
+        score -= 20.0
+        reasons.append("Penalized redirection into active spread damage.")
+
+    return score, tuple(reasons)
 
 
 def _team_preview_score(order: str, request: DecisionRequest) -> tuple[float, tuple[str, ...]]:
@@ -740,6 +810,10 @@ def _team_preview_score(order: str, request: DecisionRequest) -> tuple[float, tu
     stability_score, stability_reasons = _lead_stability_score(leads)
     score += stability_score
     reasons.extend(stability_reasons)
+
+    focus_score, focus_reasons = _preview_focus_fire_score(leads, request)
+    score += focus_score
+    reasons.extend(focus_reasons)
 
     opponent_score, opponent_reasons = _preview_matchup_score(leads, backline, request)
     score += opponent_score
@@ -951,6 +1025,45 @@ def _preview_matchup_score(
     return score, tuple(reasons)
 
 
+def _preview_focus_fire_score(
+    leads: list[dict[str, Any]],
+    request: DecisionRequest,
+) -> tuple[float, tuple[str, ...]]:
+    if len(leads) < 2:
+        return 0.0, ()
+    opponent = request.get("opponent") or request.get("observed_opponent") or {}
+    opponent_team = opponent.get("team", ())
+    opponent_species = {str(pokemon.get("speciesId") or "").lower() for pokemon in opponent_team}
+    opponent_moves = [_pokemon_moves(pokemon) for pokemon in opponent_team]
+    lead_moves = [_pokemon_moves(pokemon) for pokemon in leads]
+    lead_species = {str(pokemon.get("speciesId") or "").lower() for pokemon in leads}
+    score = 0.0
+    reasons: list[str] = []
+
+    vulnerable_leads = [pokemon for pokemon in leads if _is_focus_fire_vulnerable(pokemon)]
+    has_greedy_speed_plan = any("fakeout" in moves for moves in lead_moves) and any(
+        moves & {"tailwind", "trickroom"} for moves in lead_moves
+    )
+    opponent_has_spread = any(moves & _SPREAD_DAMAGE_MOVES for moves in opponent_moves)
+    opponent_has_focus_core = bool(opponent_species & _FOCUS_FIRE_CORE_SPECIES)
+
+    if vulnerable_leads and has_greedy_speed_plan and (opponent_has_spread or opponent_has_focus_core):
+        score -= 36.0
+        reasons.append("Penalized fragile Fake Out plus speed-control lead into focus-fire pressure.")
+
+    if lead_species & {"sneasler", "whimsicott", "sinistcha", "gardevoirmega"} and {"kingambit", "charizardmegay"} <= opponent_species:
+        score -= 18.0
+        reasons.append("Penalized exposed support lead into Kingambit plus Charizard-Y pressure.")
+
+    if lead_species & {"talonflame", "aerodactylmega"} and opponent_has_spread and not any(
+        moves & {"wideguard", "quickguard"} for moves in lead_moves
+    ):
+        score -= 12.0
+        reasons.append("Penalized fast speed-control lead without team shield into spread damage.")
+
+    return score, tuple(reasons)
+
+
 def _opponent_compound_pressure(request: DecisionRequest) -> float:
     opponent = request.get("opponent") or request.get("observed_opponent") or {}
     pressure = 0.0
@@ -969,6 +1082,62 @@ def _opponent_compound_pressure(request: DecisionRequest) -> float:
         if pokemon.get("active"):
             pressure += 6.0
     return min(60.0, pressure)
+
+
+def _active_pokemon(side: dict[str, Any]) -> tuple[dict[str, Any], ...]:
+    return tuple(
+        pokemon
+        for pokemon in side.get("team", ())
+        if pokemon.get("active") and not pokemon.get("fainted")
+    )
+
+
+def _opponent_turn_one_pressure(opponent_active: tuple[dict[str, Any], ...]) -> int:
+    pressure = 0
+    for pokemon in opponent_active:
+        moves = _pokemon_moves(pokemon)
+        if moves & _SPREAD_DAMAGE_MOVES:
+            pressure += 2
+        elif moves & (_HIGH_PRESSURE_SINGLE_TARGET_MOVES | _PRIORITY_MOVES):
+            pressure += 1
+        elif _pokemon_speed(pokemon) >= 135:
+            pressure += 1
+    return pressure
+
+
+def _is_focus_fire_vulnerable(pokemon: dict[str, Any]) -> bool:
+    species = str(pokemon.get("speciesId") or "").lower()
+    moves = _pokemon_moves(pokemon)
+    if _condition_fraction(str(pokemon.get("condition", "1/1"))) <= 0.75:
+        return True
+    if species in _FOCUS_FIRE_VULNERABLE_SPECIES:
+        return True
+    if moves & {"tailwind", "trickroom", "ragepowder", "followme"} and species not in _BULKY_SUPPORT_SPECIES:
+        return True
+    return False
+
+
+def _uncovered_opponent_spread_threats(
+    move_choices: tuple[dict[str, Any], ...],
+    opponent_active: tuple[dict[str, Any], ...],
+) -> bool:
+    spread_slots = {
+        slot
+        for slot, pokemon in enumerate(opponent_active, start=1)
+        if _pokemon_moves(pokemon) & _SPREAD_DAMAGE_MOVES
+    }
+    if not spread_slots:
+        return False
+    fakeout_targets = {
+        int(choice.get("target") or 0)
+        for choice in move_choices
+        if str(choice.get("moveId") or "").lower() == "fakeout" and int(choice.get("target") or 0) > 0
+    }
+    return bool(spread_slots - fakeout_targets)
+
+
+def _opponent_has_spread_damage_active(opponent_active: tuple[dict[str, Any], ...]) -> bool:
+    return any(_pokemon_moves(pokemon) & _SPREAD_DAMAGE_MOVES for pokemon in opponent_active)
 
 
 def _passivity_penalty(action: dict[str, Any]) -> float:
@@ -1050,6 +1219,21 @@ _REDIRECTION_MOVES = {"followme", "ragepowder"}
 _DISRUPTION_MOVES = {"fakeout", "yawn", "spore", "sleeppowder", "willowisp", "taunt", "partingshot"}
 _SETUP_MOVES = {"swordsdance", "nastyplot", "calmmind", "dragondance"}
 _PRIORITY_MOVES = {"fakeout", "suckerpunch", "aquajet", "accelerock", "quickattack", "shadowsneak"}
+_HIGH_PRESSURE_SINGLE_TARGET_MOVES = {
+    "kowtowcleave",
+    "wavecrash",
+    "lastrespects",
+    "moonblast",
+    "lightofruin",
+    "flareblitz",
+    "dragonclaw",
+    "stoneaxe",
+    "headsmash",
+    "closecombat",
+    "weatherball",
+    "shadowball",
+    "luminacrash",
+}
 _WEATHER_ABILITIES = {"drought", "drizzle", "sandstream", "snowwarning"}
 _FRAGILE_LEAD_SPECIES = {
     "chandelure",
@@ -1067,6 +1251,38 @@ _BENCHMARK_BAD_LEADS = {
     "maushold",
     "volcarona",
     "hydreigon",
+}
+_FOCUS_FIRE_VULNERABLE_SPECIES = {
+    "sneasler",
+    "whimsicott",
+    "talonflame",
+    "aerodactyl",
+    "aerodactylmega",
+    "gardevoirmega",
+    "froslassmega",
+    "scovillainmega",
+    "vivillon",
+    "maushold",
+    "pelipper",
+    "ninetalesalola",
+    "delphoxmega",
+}
+_BULKY_SUPPORT_SPECIES = {
+    "incineroar",
+    "sinistcha",
+    "farigiraf",
+    "blastoisemega",
+    "amoonguss",
+    "clefairy",
+}
+_FOCUS_FIRE_CORE_SPECIES = {
+    "kingambit",
+    "charizardmegay",
+    "basculegion",
+    "sneasler",
+    "kleavor",
+    "floettemega",
+    "garchomp",
 }
 _FAST_PHYSICAL_THREATS = {
     "weavile",
